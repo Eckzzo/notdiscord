@@ -18,52 +18,53 @@ const app = new Koa();
 
 app.use(bodyParser());
 
-app.on('error', err => {
-  // eslint-disable-next-line
-  console.log('app error: ', err);
+app.on('error', (err) => {
+	// eslint-disable-next-line
+	console.log('app error: ', err);
 });
 
 app.use(logger());
 app.use(cors({ credentials: true }));
 
-const graphqlSettingsPerReq = async (_: Request, __: Response, ctx: ParameterizedContext) => {
-  console.log('cookie?', ctx.cookies.get('jwt'));
-  const { user } = await getUser(ctx);
-  console.log('user', user);
-  console.log('req', _);
-  return {
-    graphiql: process.env.NODE_ENV !== 'production',
-    schema,
-    context: await getContext({
-      ctx,
-      user,
-    }),
-    customFormatErrorFn: (error: GraphQLError) => {
-      // eslint-disable-next-line
-      console.log(error.message);
-      // eslint-disable-next-line
-      console.log(error.locations);
-      // eslint-disable-next-line
-      console.log(error.stack);
+const graphqlSettingsPerReq = async (
+	_: Request,
+	__: Response,
+	ctx: ParameterizedContext
+) => {
+	const { user } = await getUser(ctx);
+	return {
+		graphiql: process.env.NODE_ENV !== 'production',
+		schema,
+		context: await getContext({
+			ctx,
+			user,
+		}),
+		customFormatErrorFn: (error: GraphQLError) => {
+			// eslint-disable-next-line
+			console.log(error.message);
+			// eslint-disable-next-line
+			console.log(error.locations);
+			// eslint-disable-next-line
+			console.log(error.stack);
 
-      return {
-        message: error.message,
-        locations: error.locations,
-        stack: error.stack,
-      };
-    },
-  } as OptionsData;
+			return {
+				message: error.message,
+				locations: error.locations,
+				stack: error.stack,
+			};
+		},
+	} as OptionsData;
 };
 
 const graphqlServer = graphqlHTTP(graphqlSettingsPerReq);
 
 router.all('/graphql', graphqlServer);
 router.all(
-  '/graphiql',
-  koaPlayground({
-    endpoint: '/graphql',
-    subscriptionEndpoint: '/subscriptions',
-  }),
+	'/graphiql',
+	koaPlayground({
+		endpoint: '/graphql',
+		subscriptionEndpoint: '/subscriptions',
+	})
 );
 
 app.use(router.routes()).use(router.allowedMethods());
