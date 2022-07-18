@@ -1,0 +1,12 @@
+import { styled } from '@stitches';
+
+const Header = styled('header', {
+  maxHeight: '69px',
+  p: '$4',
+  display: 'flex',
+  alignItems: 'center',
+  flexGrow: 1,
+  borderBottom: '1px solid $gray300',
+});
+
+export { Header };

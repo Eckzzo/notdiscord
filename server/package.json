@@ -1,0 +1,70 @@
+{
+  "name": "cordisc-server",
+  "version": "1.0.0",
+  "main": "dist/src/index.js",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint src/** --fix",
+    "postinstall": "patch-package",
+    "prettier": "prettier src/** --write",
+    "format": "yarn lint && yarn prettier",
+    "dev": "tsc-watch --onSuccess \"node dist/index.js\""
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/dotenv-safe": "^8.1.2",
+    "@types/kcors": "^2.2.6",
+    "@types/koa": "^2.13.4",
+    "@types/koa-logger": "^3.1.2",
+    "@types/koa-router": "^7.4.4",
+    "@types/mongoose": "^5.11.97",
+    "@types/uuid": "^8.3.4",
+    "@types/validator": "^13.7.4",
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
+    "eslint": "^8.18.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1",
+    "tsc-watch": "^5.0.3",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@entria/graphql-mongo-helpers": "^1.1.2",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/koa-bodyparser": "^4.3.7",
+    "bcryptjs": "^2.4.3",
+    "dataloader": "^2.1.0",
+    "dotenv-safe": "^8.2.0",
+    "graphql": "^16.5.0",
+    "graphql-playground-middleware-koa": "^1.6.22",
+    "graphql-relay": "^0.10.0",
+    "isomorphic-fetch": "^3.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "kcors": "^2.2.2",
+    "koa": "^2.13.4",
+    "koa-bodyparser": "^4.3.0",
+    "koa-graphql": "^0.12.0",
+    "koa-helmet": "^6.1.0",
+    "koa-jwt": "^4.0.3",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^11.0.1",
+    "mongoose": "^6.4.1",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
+    "uuid": "^8.3.2",
+    "validator": "^13.7.0"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "prettier src/** --write",
+      "eslint src/** --fix"
+    ],
+    "*.yml": [
+      "prettier --write"
+    ]
+  }
+}
