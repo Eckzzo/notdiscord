@@ -20,7 +20,7 @@ import { FriendshipSend } from './FriendshipSendMutation';
 import {
 	FriendshipSendMutation,
 	FriendshipSendMutation$data,
-} from '../../__generated__/FriendshipSendMutation.graphql';
+} from '__generated__/FriendshipSendMutation.graphql';
 
 /* -------------------------------------------------------------------------------------------------
  * Styled Items
@@ -84,7 +84,7 @@ const Form: React.FC = () => {
 			const connection = ConnectionHandler.getConnectionID(
 				ROOT_ID,
 				'FriendshipsSent_friendships',
-				{ input: { status: 'PENDING', target: 'SENDER' } }
+				{}
 			);
 
 			const config = {

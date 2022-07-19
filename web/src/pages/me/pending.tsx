@@ -7,30 +7,32 @@ import { Layout } from 'components/Layout/Layout';
 import { getPreloadedQuery } from 'relay/network';
 import { MeLayout } from 'components/Layout/MeLayout';
 import layoutQuery from '__generated__/LayoutQuery.graphql';
-import { FriendList } from 'components/Friendship/FriendList';
 import { NextPageWithLayout } from 'relay/ReactRelayContainer';
-import pageQuery, { me_PageQuery } from '__generated__/me_PageQuery.graphql';
+import pageQuery, {
+	pending_PageQuery,
+} from '__generated__/pending_PageQuery.graphql';
+import { FriendshipPendingList } from 'components/Friendship/FriendshipPendingList';
 
-const MeIndexQuery = graphql`
-	query me_PageQuery(
+const PendingQuery = graphql`
+	query pending_PageQuery(
 		$after: String
 		$first: Int!
 		$status: FriendshipStatus!
 		$target: FriendshipTarget!
 	) {
-		...FriendListFragment
+		...FriendshipPendingListFragment
 	}
 `;
 
-interface MeIndexProps {
+interface PendingProps {
 	queryRefs: {
-		pageQueryRef: PreloadedQuery<me_PageQuery>;
+		pageQueryRef: PreloadedQuery<pending_PageQuery>;
 	};
 }
 
-const Index: NextPageWithLayout<MeIndexProps> = ({ queryRefs }) => {
-	const data = usePreloadedQuery<me_PageQuery>(
-		MeIndexQuery,
+const Pending: NextPageWithLayout<PendingProps> = ({ queryRefs }) => {
+	const data = usePreloadedQuery<pending_PageQuery>(
+		PendingQuery,
 		queryRefs.pageQueryRef
 	);
 
@@ -39,12 +41,12 @@ const Index: NextPageWithLayout<MeIndexProps> = ({ queryRefs }) => {
 	}
 	return (
 		<Suspense fallback="Loading...">
-			<FriendList fragmentRef={data} />
+			<FriendshipPendingList fragmentRef={data} />
 		</Suspense>
 	);
 };
 
-Index.getLayout = (page) => {
+Pending.getLayout = (page) => {
 	return (
 		<Layout queryRef={page.props.queryRefs.layout}>
 			<MeLayout>{page}</MeLayout>
@@ -68,4 +70,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	};
 };
 
-export default Index;
+export { PendingQuery };
+
+export default Pending;

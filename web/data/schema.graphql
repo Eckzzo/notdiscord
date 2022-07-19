@@ -1,0 +1,262 @@
+"""Exposes a URL that specifies the behavior of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behavior of this scalar."""
+  url: String!
+) on SCALAR
+
+"""A connection to a list of items."""
+interface Connection {
+  """Number of items in this connection."""
+  count: Int
+
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+  This allows a client to fetch the first five objects by passing "5" as the
+  argument to "first", then fetch the total count so it could display "5 of 83",
+  for example.
+  """
+  totalCount: Int
+
+  """Offset from start."""
+  startCursorOffset: Int!
+
+  """Offset till end."""
+  endCursorOffset: Int!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"""
+An object containing an error message and the field the error belongs to
+"""
+type FieldError {
+  field: String
+  message: String
+}
+
+"""The friendship status between two users"""
+type Friendship {
+  """The ID of an object"""
+  id: ID!
+
+  """The user that sent this friendship"""
+  sender: User!
+
+  """The user that is the recipient of this friendship"""
+  recipient: User!
+
+  """The status that this friendship is"""
+  status: Int!
+
+  """mongoose _id"""
+  _id: String!
+}
+
+input FriendshipAcceptInput {
+  friendship: ID!
+  clientMutationId: String
+}
+
+type FriendshipAcceptPayload {
+  friendship: Friendship
+
+  """Default error field resolver."""
+  error: String
+
+  """Default success field resolver."""
+  success: String
+  clientMutationId: String
+}
+
+input FriendshipCancelInput {
+  friendship: ID!
+  clientMutationId: String
+}
+
+type FriendshipCancelPayload {
+  id: ID
+
+  """Default error field resolver."""
+  error: String
+
+  """Default success field resolver."""
+  success: String
+  clientMutationId: String
+}
+
+"""A connection to a list of items."""
+type FriendshipConnection implements Connection {
+  """Number of items in this connection."""
+  count: Int
+
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+  This allows a client to fetch the first five objects by passing "5" as the
+  argument to "first", then fetch the total count so it could display "5 of 83",
+  for example.
+  """
+  totalCount: Int
+
+  """Offset from start."""
+  startCursorOffset: Int!
+
+  """Offset till end."""
+  endCursorOffset: Int!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [FriendshipEdge]!
+}
+
+input FriendshipDeleteInput {
+  friendship: ID!
+  clientMutationId: String
+}
+
+type FriendshipDeletePayload {
+  id: ID
+
+  """Default error field resolver."""
+  error: String
+
+  """Default success field resolver."""
+  success: String
+  clientMutationId: String
+}
+
+"""An edge in a connection."""
+type FriendshipEdge {
+  """The item at the end of the edge."""
+  node: Friendship
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+input FriendshipRejectInput {
+  friendship: ID!
+  clientMutationId: String
+}
+
+type FriendshipRejectPayload {
+  id: ID
+
+  """Default error field resolver."""
+  error: String
+
+  """Default success field resolver."""
+  success: String
+  clientMutationId: String
+}
+
+input FriendshipSendInput {
+  username: String!
+  clientMutationId: String
+}
+
+type FriendshipSendPayload {
+  friendshipEdge: FriendshipEdge
+
+  """Default success field resolver."""
+  success: String
+  error: FieldError
+  clientMutationId: String
+}
+
+"""Status of the friendship"""
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
+}
+
+"""The target of friendship"""
+enum FriendshipTarget {
+  SENDER
+  RECIPIENT
+}
+
+type Mutation {
+  UserSignInMutation(input: UserSignInMutationInput!): UserSignInMutationPayload
+  UserSignUpMutation(input: UserSignUpMutationInput!): UserSignUpMutationPayload
+  FriendshipSendMutation(input: FriendshipSendInput!): FriendshipSendPayload
+  FriendshipAcceptMutation(input: FriendshipAcceptInput!): FriendshipAcceptPayload
+  FriendshipCancelMutation(input: FriendshipCancelInput!): FriendshipCancelPayload
+  FriendshipDeleteMutation(input: FriendshipDeleteInput!): FriendshipDeletePayload
+  FriendshipRejectMutation(input: FriendshipRejectInput!): FriendshipRejectPayload
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""Queries"""
+type Query {
+  me: User
+  friendships(status: FriendshipStatus!, target: FriendshipTarget!, after: String, first: Int, before: String, last: Int): FriendshipConnection!
+}
+
+"""NotDiscord user"""
+type User {
+  """The ID of an object"""
+  id: ID!
+  username: String!
+  email: String
+  denominator: String!
+
+  """The user avatar hash"""
+  avatar: String
+  friendships(status: FriendshipStatus!, target: FriendshipTarget!, after: String, first: Int, before: String, last: Int): FriendshipConnection!
+  isFriend: Boolean!
+
+  """mongoose _id"""
+  _id: String!
+  createdAt: String
+  updatedAt: String
+}
+
+input UserSignInMutationInput {
+  email: String!
+  password: String!
+  clientMutationId: String
+}
+
+type UserSignInMutationPayload {
+  me: User
+  error: FieldError
+
+  """Default success field resolver."""
+  success: String
+  clientMutationId: String
+}
+
+input UserSignUpMutationInput {
+  username: String!
+  email: String!
+  password: String!
+  clientMutationId: String
+}
+
+type UserSignUpMutationPayload {
+  me: User
+  token: String
+  error: FieldError
+
+  """Default success field resolver."""
+  success: String
+  clientMutationId: String
+}
+

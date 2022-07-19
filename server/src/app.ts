@@ -32,6 +32,7 @@ const graphqlSettingsPerReq = async (
 	ctx: ParameterizedContext
 ) => {
 	const { user } = await getUser(ctx);
+	console.log('a request was made...');
 	return {
 		graphiql: process.env.NODE_ENV !== 'production',
 		schema,
