@@ -1,6 +1,12 @@
-import { Fragment, Suspense, useCallback } from 'react';
+import { ROOT_ID } from 'relay-runtime';
 import { Cross2Icon } from '@radix-ui/react-icons';
-import { graphql, useMutation, usePaginationFragment } from 'react-relay';
+import { Fragment, Suspense, useCallback } from 'react';
+import {
+	ConnectionHandler,
+	graphql,
+	useMutation,
+	usePaginationFragment,
+} from 'react-relay';
 
 import { Flex } from '@ui/Flex';
 import { Text } from '@ui/Text';
@@ -12,9 +18,9 @@ import { Separator } from '@ui/Separator';
 import { IconButton } from '@ui/IconButton';
 import { FriendshipCard } from './FriendshipCard';
 import { AddFriendDialog } from './AddFriendDialog';
+import { FriendshipDelete } from './mutations/FriendshipDeleteMutation';
 import { FriendListFragment$key } from '__generated__/FriendListFragment.graphql';
 import { FriendshipDeleteMutation } from '__generated__/FriendshipDeleteMutation.graphql';
-import { FriendshipDelete } from './FriendshipDeleteMutation';
 
 const FriendListFragment = graphql`
 	fragment FriendListFragment on Query @refetchable(queryName: "FriendList") {
@@ -47,16 +53,18 @@ const FriendList: React.FC<FriendListProps> = ({ fragmentRef }) => {
 	const [deleteFriendship, isLoading] =
 		useMutation<FriendshipDeleteMutation>(FriendshipDelete);
 
-	const handleDelete = useCallback(
-		(friendshipId: string) => {
-			const config = {
-				variables: { input: { friendship: friendshipId } },
-			};
+	const handleDelete = (friendshipId: string) => {
+		const config = {
+			variables: {
+				input: {
+					friendship: friendshipId,
+				},
+				connections: [data.friendships.__id],
+			},
+		};
 
-			deleteFriendship(config);
-		},
-		[deleteFriendship]
-	);
+		deleteFriendship(config);
+	};
 
 	if (!data) {
 		return null;

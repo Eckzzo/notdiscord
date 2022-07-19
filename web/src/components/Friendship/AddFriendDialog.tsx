@@ -16,7 +16,7 @@ import { Spinner } from '@ui/Spinner';
 import { Heading } from '@ui/Heading';
 import { IconButton } from '@ui/IconButton';
 
-import { FriendshipSend } from './FriendshipSendMutation';
+import { FriendshipSend } from './mutations/FriendshipSendMutation';
 import {
 	FriendshipSendMutation,
 	FriendshipSendMutation$data,

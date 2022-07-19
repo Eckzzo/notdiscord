@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7863f17f7661b3af34ad3c91f15a14a6>>
+ * @generated SignedSource<<127c90dce2cf1b46065ba1636a8ffb1e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,11 +14,14 @@ export type FriendshipCancelInput = {
   friendship: string;
 };
 export type FriendshipCancelMutation$variables = {
+  connections: ReadonlyArray<string>;
   input: FriendshipCancelInput;
 };
 export type FriendshipCancelMutation$data = {
   readonly FriendshipCancelMutation: {
-    readonly id: string | null;
+    readonly deletedNode: {
+      readonly id: string;
+    } | null;
   } | null;
 };
 export type FriendshipCancelMutation = {
@@ -27,21 +30,24 @@ export type FriendshipCancelMutation = {
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "input"
-  }
-],
-v1 = [
+var v0 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "connections"
+},
+v1 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "input"
+},
+v2 = [
   {
     "kind": "Variable",
     "name": "input",
     "variableName": "input"
   }
 ],
-v2 = {
+v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -50,20 +56,34 @@ v2 = {
 };
 return {
   "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [
+      (v0/*: any*/),
+      (v1/*: any*/)
+    ],
     "kind": "Fragment",
     "metadata": null,
     "name": "FriendshipCancelMutation",
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
+        "args": (v2/*: any*/),
         "concreteType": "FriendshipCancelPayload",
         "kind": "LinkedField",
         "name": "FriendshipCancelMutation",
         "plural": false,
         "selections": [
-          (v2/*: any*/)
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Friendship",
+            "kind": "LinkedField",
+            "name": "deletedNode",
+            "plural": false,
+            "selections": [
+              (v3/*: any*/)
+            ],
+            "storageKey": null
+          }
         ],
         "storageKey": null
       }
@@ -73,27 +93,48 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [
+      (v1/*: any*/),
+      (v0/*: any*/)
+    ],
     "kind": "Operation",
     "name": "FriendshipCancelMutation",
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
+        "args": (v2/*: any*/),
         "concreteType": "FriendshipCancelPayload",
         "kind": "LinkedField",
         "name": "FriendshipCancelMutation",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
           {
             "alias": null,
             "args": null,
-            "filters": null,
-            "handle": "deleteRecord",
-            "key": "",
-            "kind": "ScalarHandle",
-            "name": "id"
+            "concreteType": "Friendship",
+            "kind": "LinkedField",
+            "name": "deletedNode",
+            "plural": false,
+            "selections": [
+              (v3/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "filters": null,
+                "handle": "deleteEdge",
+                "key": "",
+                "kind": "ScalarHandle",
+                "name": "id",
+                "handleArgs": [
+                  {
+                    "kind": "Variable",
+                    "name": "connections",
+                    "variableName": "connections"
+                  }
+                ]
+              }
+            ],
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -101,16 +142,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "8a16f03538dde4cf2cd8c73230f8db02",
+    "cacheID": "af6db6061292d80224ed656c443e006b",
     "id": null,
     "metadata": {},
     "name": "FriendshipCancelMutation",
     "operationKind": "mutation",
-    "text": "mutation FriendshipCancelMutation(\n  $input: FriendshipCancelInput!\n) {\n  FriendshipCancelMutation(input: $input) {\n    id\n  }\n}\n"
+    "text": "mutation FriendshipCancelMutation(\n  $input: FriendshipCancelInput!\n) {\n  FriendshipCancelMutation(input: $input) {\n    deletedNode {\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "faccd18f02cd9d58974b6d4a32fde290";
+(node as any).hash = "ae2e4a1c1e34d4eb2f6c5e8df06c0c7d";
 
 export default node;

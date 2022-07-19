@@ -1,5 +1,5 @@
 import { GraphQLNonNull, GraphQLID } from 'graphql';
-import { mutationWithClientMutationId, toGlobalId } from 'graphql-relay';
+import { mutationWithClientMutationId } from 'graphql-relay';
 
 import {
 	errorField,
@@ -7,6 +7,7 @@ import {
 	successField,
 } from '@entria/graphql-mongo-helpers';
 
+import { FriendshipType } from '../FriendshipType';
 import { FriendshipModel } from '../FriendshipModel';
 import { GraphQLContext } from '../../../graphql/context';
 
@@ -33,14 +34,14 @@ const FriendshipDeleteMutation = mutationWithClientMutationId({
 		}
 
 		// Check if accepted friendship exists
-		const acceptedFriendship = await FriendshipModel.findOne({
+		const friendshipToDelete = await FriendshipModel.findOne({
 			_id: getObjectId(friendship),
 			recipient: context.user.id,
 			// Accepted Status
 			status: 1,
 		});
 
-		if (!acceptedFriendship) {
+		if (!friendshipToDelete) {
 			return {
 				error: 'Friendship not found',
 			};
@@ -48,24 +49,24 @@ const FriendshipDeleteMutation = mutationWithClientMutationId({
 
 		await FriendshipModel.deleteOne({
 			recipient: context.user.id,
-			sender: acceptedFriendship.sender,
+			sender: friendshipToDelete.sender,
 		});
 
 		await FriendshipModel.deleteOne({
 			sender: context.user.id,
-			recipient: acceptedFriendship.sender,
+			recipient: friendshipToDelete.sender,
 		});
 
 		return {
 			error: null,
-			id: getObjectId(acceptedFriendship),
 			success: 'Friendship Removed',
+			deletedFriendship: friendshipToDelete,
 		};
 	},
 	outputFields: {
-		id: {
-			type: GraphQLID,
-			resolve: ({ id }) => toGlobalId('Friendship', id),
+		deletedNode: {
+			type: FriendshipType,
+			resolve: async ({ deletedFriendship }) => deletedFriendship,
 		},
 		...errorField,
 		...successField,

@@ -12,7 +12,7 @@ import { Separator } from '@ui/Separator';
 import { IconButton } from '@ui/IconButton';
 import { FriendshipCard } from './FriendshipCard';
 import { AddFriendDialog } from './AddFriendDialog';
-import { FriendshipCancel } from './FriendshipCancelMutation';
+import { FriendshipCancel } from './mutations/FriendshipCancelMutation';
 import { FriendshipCancelMutation } from '__generated__/FriendshipCancelMutation.graphql';
 import { FriendshipSentListFragment$key } from '__generated__/FriendshipSentListFragment.graphql';
 
@@ -57,6 +57,17 @@ const FriendshipSentList: React.FC<FriendshipSentListProps> = ({
 		return null;
 	}
 
+	const handleCancel = (friendshipId: string) => {
+		const config = {
+			variables: {
+				input: { friendship: friendshipId },
+				connections: [data.friendships.__id],
+			},
+		};
+
+		cancelFriendship(config);
+	};
+
 	const { friendships } = data;
 
 	if (friendships.edges.length <= 0) {
@@ -88,11 +99,7 @@ const FriendshipSentList: React.FC<FriendshipSentListProps> = ({
 								<Tooltip content="Cancel" side="top" sideOffset={4}>
 									<IconButton
 										variant="tertiary"
-										onClick={() =>
-											cancelFriendship({
-												variables: { input: { friendship: edge?.node?.id! } },
-											})
-										}
+										onClick={() => handleCancel(edge.node?.id!)}
 									>
 										{isLoading ? (
 											<Spinner />

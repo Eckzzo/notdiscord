@@ -1,5 +1,5 @@
 import { GraphQLNonNull, GraphQLID } from 'graphql';
-import { mutationWithClientMutationId, toGlobalId } from 'graphql-relay';
+import { mutationWithClientMutationId } from 'graphql-relay';
 
 import {
 	errorField,
@@ -9,6 +9,7 @@ import {
 
 import { FriendshipModel } from '../FriendshipModel';
 import { GraphQLContext } from '../../../graphql/context';
+import { FriendshipType } from '../FriendshipType';
 
 interface FriendshipCancelMutationArgs {
 	friendship: string;
@@ -50,14 +51,14 @@ const FriendshipCancelMutation = mutationWithClientMutationId({
 
 		return {
 			error: null,
-			id: getObjectId(friendshipRequest),
+			deletedNode: friendshipRequest,
 			success: 'Friend Request cancelled',
 		};
 	},
 	outputFields: {
-		id: {
-			type: GraphQLID,
-			resolve: ({ id }) => toGlobalId('Friendship', id),
+		deletedNode: {
+			type: FriendshipType,
+			resolve: ({ deletedNode }) => deletedNode,
 		},
 		...errorField,
 		...successField,

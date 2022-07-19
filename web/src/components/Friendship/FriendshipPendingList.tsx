@@ -1,12 +1,6 @@
-import { ROOT_ID } from 'relay-runtime';
 import { Fragment, Suspense, useCallback } from 'react';
 import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons';
-import {
-	ConnectionHandler,
-	graphql,
-	useMutation,
-	usePaginationFragment,
-} from 'react-relay';
+import { graphql, useMutation, usePaginationFragment } from 'react-relay';
 
 import { Flex } from '@ui/Flex';
 import { Text } from '@ui/Text';
@@ -16,8 +10,11 @@ import { Tooltip } from '@ui/Tooltip';
 import { Separator } from '@ui/Separator';
 import { IconButton } from '@ui/IconButton';
 import { FriendshipCard } from './FriendshipCard';
-import { FriendshipAccept } from './FriendshipAcceptMutation';
-import { FriendshipReject } from './FriendshipRejectMutation';
+import {
+	FriendshipAccept,
+	FriendshipAcceptUpdater,
+} from './mutations/FriendshipAcceptMutation';
+import { FriendshipReject } from './mutations/FriendshipRejectMutation';
 import { FriendshipRejectMutation } from '__generated__/FriendshipRejectMutation.graphql';
 import { FriendshipAcceptMutation } from '__generated__/FriendshipAcceptMutation.graphql';
 import { FriendshipPendingListFragment$key } from '__generated__/FriendshipPendingListFragment.graphql';
@@ -76,16 +73,11 @@ const FriendshipPendingList: React.FC<FriendshipPendingListProps> = ({
 
 	const handleAccept = useCallback(
 		(friendshipId: string) => {
-			const connId = ConnectionHandler.getConnectionID(
-				ROOT_ID,
-				'FriendList_friendships'
-			);
-
 			const config = {
 				variables: {
 					input: { friendship: friendshipId },
-					connections: [connId],
 				},
+				updater: FriendshipAcceptUpdater(friendshipId),
 			};
 
 			acceptFriendship(config);

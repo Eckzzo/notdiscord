@@ -74,10 +74,6 @@ const FriendshipAcceptMutation = mutationWithClientMutationId({
 		};
 	},
 	outputFields: {
-		id: {
-			type: GraphQLID,
-			resolve: ({ id }) => toGlobalId('Friendship', id),
-		},
 		friendshipEdge: {
 			type: FriendshipConnection.edgeType,
 			resolve: async ({ acceptedId }, _, context) => {
