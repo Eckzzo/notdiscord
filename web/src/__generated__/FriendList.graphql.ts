@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b2d865af97b952770938c1dba09ade6a>>
+ * @generated SignedSource<<c6a3963f89ac77af4aa7d2f31d4e89f6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -155,7 +155,7 @@ return {
                     "args": null,
                     "concreteType": "User",
                     "kind": "LinkedField",
-                    "name": "recipient",
+                    "name": "sender",
                     "plural": false,
                     "selections": [
                       {
@@ -223,16 +223,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "2574fc95a279378a55d694b5f1161ddf",
+    "cacheID": "8e3df5a3fb758ea7c65cd17f190e5659",
     "id": null,
     "metadata": {},
     "name": "FriendList",
     "operationKind": "query",
-    "text": "query FriendList(\n  $after: String\n  $first: Int\n  $status: FriendshipStatus!\n  $target: FriendshipTarget!\n) {\n  ...FriendListFragment\n}\n\nfragment FriendListFragment on Query {\n  friendships(status: $status, target: $target, first: $first, after: $after) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    edges {\n      node {\n        id\n        recipient {\n          ...FriendshipCardFragment\n          id\n        }\n        __typename\n      }\n      cursor\n    }\n  }\n}\n\nfragment FriendshipCardFragment on User {\n  username\n  denominator\n}\n"
+    "text": "query FriendList(\n  $after: String\n  $first: Int\n  $status: FriendshipStatus!\n  $target: FriendshipTarget!\n) {\n  ...FriendListFragment\n}\n\nfragment FriendListFragment on Query {\n  friendships(status: $status, target: $target, first: $first, after: $after) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    edges {\n      node {\n        id\n        sender {\n          ...FriendshipCardFragment\n          id\n        }\n        __typename\n      }\n      cursor\n    }\n  }\n}\n\nfragment FriendshipCardFragment on User {\n  username\n  denominator\n}\n"
   }
 };
 })();
 
-(node as any).hash = "06e86e5aa18f2485ccb13f4b6445d909";
+(node as any).hash = "702980c184a023957bafbaca21611e66";
 
 export default node;

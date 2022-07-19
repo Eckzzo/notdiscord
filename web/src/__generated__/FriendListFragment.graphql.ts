@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4520f280d935ea5260c2a55ec6174af0>>
+ * @generated SignedSource<<895c7aed842892a771054655717bb8c4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,7 +16,7 @@ export type FriendListFragment$data = {
     readonly edges: ReadonlyArray<{
       readonly node: {
         readonly id: string;
-        readonly recipient: {
+        readonly sender: {
           readonly " $fragmentSpreads": FragmentRefs<"FriendshipCardFragment">;
         };
       } | null;
@@ -142,7 +142,7 @@ return {
                   "args": null,
                   "concreteType": "User",
                   "kind": "LinkedField",
-                  "name": "recipient",
+                  "name": "sender",
                   "plural": false,
                   "selections": [
                     {
@@ -194,6 +194,6 @@ return {
 };
 })();
 
-(node as any).hash = "06e86e5aa18f2485ccb13f4b6445d909";
+(node as any).hash = "702980c184a023957bafbaca21611e66";
 
 export default node;

@@ -59,7 +59,8 @@ input FriendshipAcceptInput {
 }
 
 type FriendshipAcceptPayload {
-  friendship: Friendship
+  id: ID
+  friendshipEdge: FriendshipEdge
 
   """Default error field resolver."""
   error: String

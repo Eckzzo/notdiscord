@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<92266be243f338add4b1053453830ff8>>
+ * @generated SignedSource<<355c48a83cdcd7c06d6922a2a70ff2af>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -155,7 +155,7 @@ return {
                     "args": null,
                     "concreteType": "User",
                     "kind": "LinkedField",
-                    "name": "recipient",
+                    "name": "sender",
                     "plural": false,
                     "selections": [
                       {
@@ -223,12 +223,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "d2ade3c3b52d9889c8cd51df22169602",
+    "cacheID": "d7b2198b42c578f5b51d5beb01d11ba6",
     "id": null,
     "metadata": {},
     "name": "me_PageQuery",
     "operationKind": "query",
-    "text": "query me_PageQuery(\n  $after: String\n  $first: Int!\n  $status: FriendshipStatus!\n  $target: FriendshipTarget!\n) {\n  ...FriendListFragment\n}\n\nfragment FriendListFragment on Query {\n  friendships(status: $status, target: $target, first: $first, after: $after) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    edges {\n      node {\n        id\n        recipient {\n          ...FriendshipCardFragment\n          id\n        }\n        __typename\n      }\n      cursor\n    }\n  }\n}\n\nfragment FriendshipCardFragment on User {\n  username\n  denominator\n}\n"
+    "text": "query me_PageQuery(\n  $after: String\n  $first: Int!\n  $status: FriendshipStatus!\n  $target: FriendshipTarget!\n) {\n  ...FriendListFragment\n}\n\nfragment FriendListFragment on Query {\n  friendships(status: $status, target: $target, first: $first, after: $after) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    edges {\n      node {\n        id\n        sender {\n          ...FriendshipCardFragment\n          id\n        }\n        __typename\n      }\n      cursor\n    }\n  }\n}\n\nfragment FriendshipCardFragment on User {\n  username\n  denominator\n}\n"
   }
 };
 })();

@@ -1,11 +1,12 @@
 import { graphql } from 'react-relay';
 
-const FriendshipSend = graphql`
-	mutation FriendshipSendMutation(
-		$input: FriendshipSendInput!
+const FriendshipAccept = graphql`
+	mutation FriendshipAcceptMutation(
+		$input: FriendshipAcceptInput!
 		$connections: [ID!]!
 	) {
-		FriendshipSendMutation(input: $input) {
+		FriendshipAcceptMutation(input: $input) {
+			id @deleteRecord
 			friendshipEdge @appendEdge(connections: $connections) {
 				node {
 					id
@@ -16,12 +17,9 @@ const FriendshipSend = graphql`
 				}
 			}
 			success
-			error {
-				field
-				message
-			}
+			error
 		}
 	}
 `;
 
-export { FriendshipSend };
+export { FriendshipAccept };

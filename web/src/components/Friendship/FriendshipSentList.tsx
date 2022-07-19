@@ -1,5 +1,5 @@
 import { Fragment, Suspense } from 'react';
-import { CrossCircledIcon } from '@radix-ui/react-icons';
+import { Cross2Icon } from '@radix-ui/react-icons';
 import { graphql, useMutation, usePaginationFragment } from 'react-relay';
 
 import { Flex } from '@ui/Flex';
@@ -59,57 +59,55 @@ const FriendshipSentList: React.FC<FriendshipSentListProps> = ({
 
 	const { friendships } = data;
 
-	return (
-		<Flex direction="column" grow>
-			<Suspense fallback={<Spinner />}>
-				{/* No requests found */}
-				{friendships.edges.length === 0 && (
-					<Flex align="center" justify="center" direction="column" gap={4} grow>
-						<Flex direction="column" align="center" gap={2}>
-							<Heading variant="h6">No Sent Friend Requests Found</Heading>
-							<Text color="lowContrast">
-								We don't have a Wumpus, but maybe you can...
-							</Text>
-						</Flex>
-						<AddFriendDialog>
-							<Button size="sm">Add a New Friend!</Button>
-						</AddFriendDialog>
-					</Flex>
-				)}
+	if (friendships.edges.length <= 0) {
+		return (
+			<Flex align="center" justify="center" direction="column" gap={4} grow>
+				<Flex direction="column" align="center" gap={2}>
+					<Heading variant="h6">No Sent Friend Requests Found</Heading>
+					<Text color="lowContrast">
+						We don't have a Wumpus, but maybe you can...
+					</Text>
+				</Flex>
+				<AddFriendDialog>
+					<Button size="sm">Add a New Friend!</Button>
+				</AddFriendDialog>
+			</Flex>
+		);
+	}
 
-				{/* Requests found! */}
-				{friendships.edges.map((edge) => {
-					if (edge?.node?.recipient) {
-						return (
-							<Fragment key={edge?.node?.id}>
-								<FriendshipCard
-									message="Outgoing Friend Request"
-									fragmentRef={edge?.node?.recipient}
-								>
-									<Tooltip content="Cancel" side="top" sideOffset={4}>
-										<IconButton
-											variant="tertiary"
-											onClick={() =>
-												cancelFriendship({
-													variables: { input: { friendship: edge?.node?.id! } },
-												})
-											}
-										>
-											{isLoading ? (
-												<Spinner />
-											) : (
-												<CrossCircledIcon height={20} width={20} />
-											)}
-										</IconButton>
-									</Tooltip>
-								</FriendshipCard>
-								<Separator />
-							</Fragment>
-						);
-					}
-				})}
-			</Suspense>
-		</Flex>
+	return (
+		<Suspense fallback={<Spinner />}>
+			{friendships.edges.map((edge) => {
+				if (edge?.node?.recipient) {
+					return (
+						<Fragment key={edge?.node?.id}>
+							<FriendshipCard
+								message="Outgoing Friend Request"
+								fragmentRef={edge?.node?.recipient}
+							>
+								<Tooltip content="Cancel" side="top" sideOffset={4}>
+									<IconButton
+										variant="tertiary"
+										onClick={() =>
+											cancelFriendship({
+												variables: { input: { friendship: edge?.node?.id! } },
+											})
+										}
+									>
+										{isLoading ? (
+											<Spinner />
+										) : (
+											<Cross2Icon height={20} width={20} />
+										)}
+									</IconButton>
+								</Tooltip>
+							</FriendshipCard>
+							<Separator />
+						</Fragment>
+					);
+				}
+			})}
+		</Suspense>
 	);
 };
 

@@ -58,7 +58,7 @@ const FriendshipDeleteMutation = mutationWithClientMutationId({
 
 		return {
 			error: null,
-			id: getObjectId(friendship),
+			id: getObjectId(acceptedFriendship),
 			success: 'Friendship Removed',
 		};
 	},

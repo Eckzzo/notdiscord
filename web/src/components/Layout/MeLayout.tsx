@@ -43,7 +43,9 @@ const MeLayout: React.FC<MeLayoutProps> = ({ children }) => {
 						</AddFriendDialog>
 					</Flex>
 				</Header>
-				{children}
+				<Flex direction="column" grow>
+					{children}
+				</Flex>
 			</Flex>
 		</Fragment>
 	);
