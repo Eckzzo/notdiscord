@@ -87,7 +87,7 @@ const FriendList: React.FC<FriendListProps> = ({ fragmentRef }) => {
 					return (
 						<Fragment key={edge?.node?.id}>
 							<FriendshipCard message="Friend" fragmentRef={edge?.node?.sender}>
-								<Tooltip content="Cancel" side="top" sideOffset={4}>
+								<Tooltip content="Delete" side="top" sideOffset={4}>
 									<IconButton
 										variant="tertiary"
 										onClick={() => handleDelete(edge?.node?.id!)}
