@@ -4,6 +4,52 @@ directive @specifiedBy(
   url: String!
 ) on SCALAR
 
+"""A channel where messages are located"""
+type Channel implements Node {
+  """The ID of an object"""
+  id: ID!
+  name: String
+  description: String
+
+  """mongoose _id"""
+  _id: String!
+}
+
+"""A connection to a list of items."""
+type ChannelConnection implements Connection {
+  """Number of items in this connection."""
+  count: Int
+
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+  This allows a client to fetch the first five objects by passing "5" as the
+  argument to "first", then fetch the total count so it could display "5 of 83",
+  for example.
+  """
+  totalCount: Int
+
+  """Offset from start."""
+  startCursorOffset: Int!
+
+  """Offset till end."""
+  endCursorOffset: Int!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ChannelEdge]!
+}
+
+"""An edge in a connection."""
+type ChannelEdge {
+  """The item at the end of the edge."""
+  node: Channel
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
 """A connection to a list of items."""
 interface Connection {
   """Number of items in this connection."""
@@ -178,6 +224,76 @@ enum FriendshipTarget {
   RECIPIENT
 }
 
+"""A guild, kinda like a discord server"""
+type Guild implements Node {
+  """The ID of an object"""
+  id: ID!
+
+  """mongoose _id"""
+  _id: String!
+  name: String
+  description: String
+
+  """The guild owner"""
+  owner: User!
+
+  """The guilds channels"""
+  channels(after: String, first: Int, before: String, last: Int): ChannelConnection!
+
+  """The guild members"""
+  members(after: String, first: Int, before: String, last: Int): UserConnection!
+}
+
+"""A connection to a list of items."""
+type GuildConnection implements Connection {
+  """Number of items in this connection."""
+  count: Int
+
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+  This allows a client to fetch the first five objects by passing "5" as the
+  argument to "first", then fetch the total count so it could display "5 of 83",
+  for example.
+  """
+  totalCount: Int
+
+  """Offset from start."""
+  startCursorOffset: Int!
+
+  """Offset till end."""
+  endCursorOffset: Int!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [GuildEdge]!
+}
+
+input GuildCreateInput {
+  name: String!
+  description: String!
+  clientMutationId: String
+}
+
+type GuildCreatePayload {
+  newGuildEdge: GuildEdge
+
+  """Default success field resolver."""
+  success: String
+  error: FieldError
+  clientMutationId: String
+}
+
+"""An edge in a connection."""
+type GuildEdge {
+  """The item at the end of the edge."""
+  node: Guild
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
 type Mutation {
   UserSignInMutation(input: UserSignInMutationInput!): UserSignInMutationPayload
   UserSignUpMutation(input: UserSignUpMutationInput!): UserSignUpMutationPayload
@@ -186,6 +302,13 @@ type Mutation {
   FriendshipCancelMutation(input: FriendshipCancelInput!): FriendshipCancelPayload
   FriendshipDeleteMutation(input: FriendshipDeleteInput!): FriendshipDeletePayload
   FriendshipRejectMutation(input: FriendshipRejectInput!): FriendshipRejectPayload
+  GuildCreateMutation(input: GuildCreateInput!): GuildCreatePayload
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
 }
 
 """Information about pagination in a connection."""
@@ -219,13 +342,50 @@ type User {
 
   """The user avatar hash"""
   avatar: String
-  friendships(status: FriendshipStatus!, target: FriendshipTarget!, after: String, first: Int, before: String, last: Int): FriendshipConnection!
+
+  """The guild members"""
+  guilds(after: String, first: Int, before: String, last: Int): GuildConnection!
   isFriend: Boolean!
 
   """mongoose _id"""
   _id: String!
   createdAt: String
   updatedAt: String
+}
+
+"""A connection to a list of items."""
+type UserConnection implements Connection {
+  """Number of items in this connection."""
+  count: Int
+
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+  This allows a client to fetch the first five objects by passing "5" as the
+  argument to "first", then fetch the total count so it could display "5 of 83",
+  for example.
+  """
+  totalCount: Int
+
+  """Offset from start."""
+  startCursorOffset: Int!
+
+  """Offset till end."""
+  endCursorOffset: Int!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [UserEdge]!
+}
+
+"""An edge in a connection."""
+type UserEdge {
+  """The item at the end of the edge."""
+  node: User
+
+  """A cursor for use in pagination."""
+  cursor: String!
 }
 
 input UserSignInMutationInput {

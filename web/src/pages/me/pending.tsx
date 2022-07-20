@@ -59,7 +59,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	return {
 		props: {
 			preloadedQueries: {
-				layout: await getPreloadedQuery(layoutQuery, {}, token),
+				layout: await getPreloadedQuery(layoutQuery, { first: 10 }, token),
 				pageQueryRef: await getPreloadedQuery(
 					pageQuery,
 					{ status: 'PENDING', target: 'RECIPIENT', first: 20, after: null },

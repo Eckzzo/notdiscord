@@ -78,7 +78,7 @@ const FriendList: React.FC<FriendListProps> = ({ fragmentRef }) => {
 				<Flex direction="column" align="center" gap={2}>
 					<Heading variant="h6">No Friends Found...</Heading>
 					<Text color="lowContrast">
-						Maybe you mistook us for the other app, if not...
+						Maybe you mistook it for the other app, if not...
 					</Text>
 				</Flex>
 				<AddFriendDialog>

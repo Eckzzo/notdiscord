@@ -1,10 +1,9 @@
 import * as yup from 'yup';
-import { ROOT_ID } from 'relay-runtime';
+import { useMutation } from 'react-relay';
 import { useForm } from 'react-hook-form';
 import { useCallback, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import { useMutation, ConnectionHandler } from 'react-relay';
 
 import { Flex } from '@ui/Flex';
 import { Text } from '@ui/Text';
@@ -16,7 +15,10 @@ import { Spinner } from '@ui/Spinner';
 import { Heading } from '@ui/Heading';
 import { IconButton } from '@ui/IconButton';
 
-import { FriendshipSend } from './mutations/FriendshipSendMutation';
+import {
+	FriendshipSend,
+	FriendshipSendUpdater,
+} from './mutations/FriendshipSendMutation';
 import {
 	FriendshipSendMutation,
 	FriendshipSendMutation$data,
@@ -38,7 +40,7 @@ const StyledForm = styled('form', {
 
 const Title: React.FC = () => {
 	return (
-		<Flex direction="column" gap={2}>
+		<Flex direction="column" gap={1}>
 			<Dialog.Title asChild>
 				<Heading variant="h5">Add Friend</Heading>
 			</Dialog.Title>
@@ -81,14 +83,9 @@ const Form: React.FC = () => {
 		(input: FormValues) => {
 			setSuccessMessage(null);
 
-			const connection = ConnectionHandler.getConnectionID(
-				ROOT_ID,
-				'FriendshipsSent_friendships',
-				{}
-			);
-
 			const config = {
-				variables: { input, connections: [connection] },
+				variables: { input },
+				updater: FriendshipSendUpdater,
 				onCompleted: (data: FriendshipSendMutation$data) => {
 					const { FriendshipSendMutation } = data;
 					const { error, success } = FriendshipSendMutation!;

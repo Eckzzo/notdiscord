@@ -1,17 +1,17 @@
 import { Fragment } from 'react';
-import NextLink from 'next/link';
 
 import { Box } from '@ui/Box';
+import { Text } from '@ui/Text';
 import { Flex } from '@ui/Flex';
 import { Field } from '@ui/Field';
 import { Button } from '@ui/Button';
 import { Header } from '@ui/Header';
 import { Heading } from '@ui/Heading';
 import { Separator } from '@ui/Separator';
+import { LinkButton } from '@ui/LinkButton';
 
 import { SubNav } from './SubNav';
 import { AddFriendDialog } from '../Friendship/AddFriendDialog';
-import { LinkButton } from '@ui/LinkButton';
 
 interface MeLayoutProps {
 	children?: React.ReactNode;
@@ -29,6 +29,9 @@ const MeLayout: React.FC<MeLayoutProps> = ({ children }) => {
 						/>
 					</Field>
 				</Box>
+				<Text variant="cap" weight="semibold" spaced uppercase>
+					Direct Messages
+				</Text>
 			</SubNav>
 			<Flex direction="column" grow>
 				<Header>

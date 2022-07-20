@@ -6,40 +6,50 @@ import { Layout } from '../components/Layout/Layout';
 import { getPreloadedQuery } from '../relay/network';
 import layoutQuery from '../__generated__/LayoutQuery.graphql';
 import { NextPageWithLayout } from '../relay/ReactRelayContainer';
-import homeQuery, { pagesHomeQuery } from '../__generated__/pagesHomeQuery.graphql';
+import homeQuery, {
+	pagesHomeQuery,
+} from '../__generated__/pagesHomeQuery.graphql';
 
 interface HomeProps {
-  queryRefs: {
-    query: PreloadedQuery<pagesHomeQuery>;
-  };
+	queryRefs: {
+		query: PreloadedQuery<pagesHomeQuery>;
+	};
 }
 
 const HomeQuery = graphql`
-  query pagesHomeQuery {
-    me {
-      username
-    }
-  }
+	query pagesHomeQuery {
+		me {
+			username
+		}
+	}
 `;
 
 const Home: NextPageWithLayout<HomeProps> = ({ queryRefs }) => {
-  const data = usePreloadedQuery(HomeQuery, queryRefs.query);
-  return <h1>Very Cool Page</h1>;
+	const data = usePreloadedQuery(HomeQuery, queryRefs.query);
+	return <h1>Very Cool Page</h1>;
 };
 
-Home.getLayout = page => {
-  return <Layout queryRef={page.props.queryRefs.layout}>{page}</Layout>;
+Home.getLayout = (page) => {
+	return <Layout queryRef={page.props.queryRefs.layout}>{page}</Layout>;
 };
 
-export const getServerSideProps: GetServerSideProps = async context => {
-  return {
-    props: {
-      preloadedQueries: {
-        query: await getPreloadedQuery(homeQuery, {}, getToken(context.req.headers)),
-        layout: await getPreloadedQuery(layoutQuery, {}, getToken(context.req.headers)),
-      },
-    },
-  };
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	return {
+		props: {
+			preloadedQueries: {
+				query: await getPreloadedQuery(
+					homeQuery,
+					{},
+					getToken(context.req.headers)
+				),
+				layout: await getPreloadedQuery(
+					layoutQuery,
+					{ first: 10 },
+					getToken(context.req.headers)
+				),
+			},
+		},
+	};
 };
 
 export default Home;

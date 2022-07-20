@@ -15,18 +15,11 @@ import {
 
 import { load } from './UserLoader';
 import { UserDocument } from './UserModel';
+import * as GuildLoader from '../guild/GuildLoader';
+import { GuildConnection } from '../guild/GuildType';
 import { GraphQLContext } from '../../graphql/context';
 import { registerTypeLoader } from '../node/typeRegister';
 import { FriendshipModel } from '../friendship/FriendshipModel';
-import * as FriendshipLoader from '../friendship/FriendshipLoader';
-import {
-	FriendshipConnection,
-	FriendshipConnectionArgs,
-} from '../friendship/FriendshipType';
-import {
-	FriendshipStatusEnum,
-	FriendshipTargetEnum,
-} from '../friendship/FriendshipFilterInputType';
 
 const UserType = new GraphQLObjectType<UserDocument, GraphQLContext>({
 	name: 'User',
@@ -50,25 +43,14 @@ const UserType = new GraphQLObjectType<UserDocument, GraphQLContext>({
 			description: 'The user avatar hash',
 			resolve: (user) => user.avatar ?? null,
 		},
-		friendships: {
-			type: new GraphQLNonNull(FriendshipConnection.connectionType),
-			args: {
-				status: {
-					type: new GraphQLNonNull(FriendshipStatusEnum),
-				},
-				target: {
-					type: new GraphQLNonNull(FriendshipTargetEnum),
-				},
-				...connectionArgs,
-			},
-			resolve: async (
-				_,
-				{ target, status, ...args }: FriendshipConnectionArgs,
-				ctx: GraphQLContext
-			) => {
-				return FriendshipLoader.loadAll(
-					ctx,
-					withFilter(args, { status, [target]: ctx.user?._id })
+		guilds: {
+			type: new GraphQLNonNull(GuildConnection.connectionType),
+			description: 'The guild members',
+			args: { ...connectionArgs },
+			resolve: async (user, args, context) => {
+				return GuildLoader.loadAll(
+					context,
+					withFilter(args, { members: user._id })
 				);
 			},
 		},
@@ -84,6 +66,7 @@ const UserType = new GraphQLObjectType<UserDocument, GraphQLContext>({
 				const friendship = await FriendshipModel.findOne({
 					sender: ctx.user.id,
 					receiver: user.id,
+					status: 1,
 				});
 				return !!friendship;
 			},
