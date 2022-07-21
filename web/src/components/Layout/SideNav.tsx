@@ -6,9 +6,9 @@ import { Flex } from '@ui/Flex';
 import { styled } from '@stitches';
 import { Separator } from '@ui/Separator';
 import { IconButton } from '@ui/IconButton';
-import { NewGuildDialog } from 'components/Guild/NewGuildDialog';
-
 import { UserDropdownMenu } from './UserDropdownMenu';
+import { GuildList } from 'components/Guild/GuildList';
+import { NewGuildDialog } from 'components/Guild/NewGuildDialog';
 import { SideNavFragment$key } from '../../__generated__/SideNavFragment.graphql';
 
 /* -------------------------------------------------------------------------------------------------
@@ -18,12 +18,10 @@ import { SideNavFragment$key } from '../../__generated__/SideNavFragment.graphql
 const SideNavFragment = graphql`
 	fragment SideNavFragment on User {
 		guilds(first: $first) @connection(key: "SideNav_guilds", filters: []) {
+			...GuildListFragment
 			...NewGuildDialogFragment
 			edges {
-				node {
-					id
-					name
-				}
+				cursor
 			}
 		}
 		...UserDropdownMenuFragment
@@ -66,13 +64,7 @@ const SideNav: React.FC<SideNavProps> = ({ fragmentKey }) => {
 				<Separator />
 			</Flex>
 			<Flex direction="column" gap={2}>
-				{data.guilds.edges.map((edge) => {
-					return (
-						<IconButton key={edge?.node?.id}>
-							<PlusIcon />
-						</IconButton>
-					);
-				})}
+				<GuildList fragmentKey={data.guilds} />
 				<NewGuildDialog fragmentKey={data.guilds}>
 					<IconButton variant="tertiary">
 						<PlusIcon />

@@ -244,6 +244,22 @@ type Guild implements Node {
   members(after: String, first: Int, before: String, last: Int): UserConnection!
 }
 
+input GuildAddChannelInput {
+  guildId: String!
+  name: String!
+  description: String!
+  clientMutationId: String
+}
+
+type GuildAddChannelPayload {
+  newChannelEdge: ChannelEdge
+
+  """Default success field resolver."""
+  success: String
+  error: FieldError
+  clientMutationId: String
+}
+
 """A connection to a list of items."""
 type GuildConnection implements Connection {
   """Number of items in this connection."""
@@ -303,6 +319,7 @@ type Mutation {
   FriendshipDeleteMutation(input: FriendshipDeleteInput!): FriendshipDeletePayload
   FriendshipRejectMutation(input: FriendshipRejectInput!): FriendshipRejectPayload
   GuildCreateMutation(input: GuildCreateInput!): GuildCreatePayload
+  GuildAddChannelMutation(input: GuildAddChannelInput!): GuildAddChannelPayload
 }
 
 """An object with an ID"""
@@ -330,6 +347,8 @@ type PageInfo {
 type Query {
   me: User
   friendships(status: FriendshipStatus!, target: FriendshipTarget!, after: String, first: Int, before: String, last: Int): FriendshipConnection!
+  guild(id: String!): Guild
+  channel(id: String!): Channel
 }
 
 """NotDiscord user"""

@@ -6,7 +6,7 @@ const GuildCreate = graphql`
 		$connections: [ID!]!
 	) {
 		GuildCreateMutation(input: $input) {
-			newGuildEdge @appendEdge(connections: $connections) {
+			newGuildEdge @prependEdge(connections: $connections) {
 				node {
 					id
 					name

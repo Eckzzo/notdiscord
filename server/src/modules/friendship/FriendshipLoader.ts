@@ -1,7 +1,8 @@
 import { createLoader } from '@entria/graphql-mongo-helpers';
 
-import { FriendshipModel } from './FriendshipModel';
 import { registerLoader } from '../loader/loaderRegister';
+
+import { FriendshipModel } from './FriendshipModel';
 import { FriendshipFilterMapping } from './FriendshipFilterInputType';
 
 const {

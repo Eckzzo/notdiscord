@@ -5,21 +5,47 @@ import { useRouter } from 'next/router';
 import { styled } from '@stitches';
 
 const StyledLinkButton = styled('button', {
-	height: '$7',
-	px: '$2',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'flex-start',
+	gap: '$2',
 	borderRadius: '$2',
-	fontSize: '$1',
 	fontWeight: '$medium',
-	lineHeight: '$2',
-	color: '$violetText',
 	backgroundColor: 'transparent',
 	border: 'none',
 	transition: 'background-color 0.2s ease',
 	'&:hover': {
 		cursor: 'pointer',
-		backgroundColor: '$violetA200',
 	},
 	variants: {
+		variant: {
+			primary: {
+				color: '$violetText',
+				'&:hover': {
+					backgroundColor: '$violetA200',
+				},
+			},
+			secondary: {
+				color: '$hiContrast',
+				'&:hover': {
+					backgroundColor: '$grayA200',
+				},
+			},
+		},
+		size: {
+			sm: {
+				height: '$7',
+				px: '$2',
+				fontSize: '$1',
+				lineHeight: '$2',
+			},
+			md: {
+				height: '$9',
+				px: '$3',
+				fontSize: '$2',
+				lineHeight: '$3',
+			},
+		},
 		active: {
 			true: {
 				backgroundColor: '$violetA200',
@@ -29,10 +55,29 @@ const StyledLinkButton = styled('button', {
 				},
 			},
 		},
+		isFullWidth: {
+			true: {
+				width: '100%',
+			},
+		},
+	},
+	compoundVariants: [
+		{
+			variant: 'secondary',
+			active: true,
+			css: {
+				backgroundColor: '$grayA200',
+			},
+		},
+	],
+	defaultVariants: {
+		size: 'sm',
+		variant: 'primary',
 	},
 });
 
-interface LinkButtonProps extends React.ComponentPropsWithRef<'button'> {
+interface LinkButtonProps
+	extends React.ComponentPropsWithRef<typeof StyledLinkButton> {
 	href: string;
 }
 
