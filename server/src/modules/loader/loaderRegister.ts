@@ -2,6 +2,7 @@ interface Dataloaders {
   UserLoader: ReturnType<typeof import('../user/UserLoader').getLoader>;
   GuildLoader: ReturnType<typeof import('../guild/GuildLoader').getLoader>;
   ChannelLoader: ReturnType<typeof import('../channel/ChannelLoader').getLoader>;
+  MessageLoader: ReturnType<typeof import('../message/MessageLoader').getLoader>;
   FriendshipLoader: ReturnType<typeof import('../friendship/FriendshipLoader').getLoader>;
 }
 

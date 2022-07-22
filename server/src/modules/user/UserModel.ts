@@ -45,11 +45,6 @@ const UserSchema = new Schema<UserDocument>(
       required: false,
       default: v4(),
     },
-    guilds: {
-      type: [Schema.Types.ObjectId],
-      ref: 'Guild',
-      default: [],
-    },
   },
   {
     collection: 'User',

@@ -1,14 +1,13 @@
 import { globalIdField } from 'graphql-relay';
-import { GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
-
+import { GraphQLBoolean, GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
 import { withFilter, connectionArgs, objectIdResolver, connectionDefinitions } from '@entria/graphql-mongo-helpers';
 
 import * as UserLoader from '../user/UserLoader';
-import { GraphQLContext } from '../../graphql/context';
-import { UserConnection, UserType } from '../user/UserType';
 import { nodeInterface } from '../node/typeRegister';
-import { ChannelConnection } from '../channel/ChannelType';
+import { GraphQLContext } from '../../graphql/context';
 import * as ChannelLoader from '../channel/ChannelLoader';
+import { ChannelConnection } from '../channel/ChannelType';
+import { UserConnection, UserType } from '../user/UserType';
 
 import { GuildDocument } from './GuildModel';
 
@@ -19,18 +18,29 @@ const GuildType = new GraphQLObjectType<GuildDocument, GraphQLContext>({
     id: globalIdField('Guild'),
     ...objectIdResolver,
     name: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
       resolve: guild => guild.name,
     },
     description: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
       resolve: guild => guild.description,
+    },
+    passcode: {
+      type: new GraphQLNonNull(GraphQLString),
+      resolve: guild => guild.passcode,
     },
     owner: {
       type: new GraphQLNonNull(UserType),
       description: 'The guild owner',
       resolve: async (guild, _, context) => {
         UserLoader.load(context, guild.owner);
+      },
+    },
+    amIOwner: {
+      type: new GraphQLNonNull(GraphQLBoolean),
+      resolve: (guild, _, context) => {
+        if (!context.user?._id) return false;
+        return guild.owner === context.user?._id;
       },
     },
     channels: {

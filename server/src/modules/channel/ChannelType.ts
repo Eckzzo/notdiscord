@@ -1,9 +1,11 @@
 import { globalIdField } from 'graphql-relay';
 import { GraphQLObjectType, GraphQLString } from 'graphql';
-import { connectionDefinitions, objectIdResolver } from '@entria/graphql-mongo-helpers';
+import { connectionArgs, connectionDefinitions, objectIdResolver, withFilter } from '@entria/graphql-mongo-helpers';
 
 import { GraphQLContext } from '../../graphql/context';
 
+import * as MessageLoader from '../message/MessageLoader';
+import { MessageConnection } from '../message/MessageType';
 import { nodeInterface, registerTypeLoader } from '../node/typeRegister';
 
 import { load } from './ChannelLoader';
@@ -22,7 +24,13 @@ const ChannelType = new GraphQLObjectType<ChannelDocument, GraphQLContext>({
       type: GraphQLString,
       resolve: channel => channel.description,
     },
-    // TODO: Load messages from the channel
+    messages: {
+      type: MessageConnection.connectionType,
+      args: { ...connectionArgs },
+      resolve: async (channel, args, ctx) => {
+        return MessageLoader.loadAll(ctx, withFilter(args, { location: channel._id }));
+      },
+    },
     ...objectIdResolver,
   }),
   interfaces: () => [nodeInterface],

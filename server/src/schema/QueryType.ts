@@ -2,16 +2,17 @@ import { fromGlobalId } from 'graphql-relay';
 import { GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
 import { connectionArgs, withFilter } from '@entria/graphql-mongo-helpers';
 
-import { GraphQLContext } from '../graphql/context';
 import { UserType } from '../modules/user/UserType';
+import { GraphQLContext } from '../graphql/context';
+import { GuildType } from '../modules/guild/GuildType';
 import * as UserLoader from '../modules/user/UserLoader';
+import { GuildModel } from '../modules/guild/GuildModel';
 import * as GuildLoader from '../modules/guild/GuildLoader';
+import { ChannelType } from '../modules/channel/ChannelType';
 import * as ChannelLoader from '../modules/channel/ChannelLoader';
 import * as FriendshipLoader from '../modules/friendship/FriendshipLoader';
-import { FriendshipStatusEnum, FriendshipTargetEnum } from '../modules/friendship/FriendshipFilterInputType';
 import { FriendshipConnection, FriendshipConnectionArgs } from '../modules/friendship/FriendshipType';
-import { GuildType } from '../modules/guild/GuildType';
-import { ChannelType } from '../modules/channel/ChannelType';
+import { FriendshipStatusEnum, FriendshipTargetEnum } from '../modules/friendship/FriendshipFilterInputType';
 
 const QueryType = new GraphQLObjectType({
   name: 'Query',
@@ -67,9 +68,9 @@ const QueryType = new GraphQLObjectType({
         if (channel.channelType === 1) {
           // This shouldn't happen but doesn't hurt to do
           if (!channel.guild) return null;
-          // Load guild to get members
-          const guild = await GuildLoader.load(ctx, channel.guild);
           // If member isn't part of the guild return null
+          // Better to use a loader and check if member is in array or use findOne?
+          const guild = await GuildModel.findOne({ guild: channel.guild, members: ctx.user });
           if (!guild) {
             return null;
           }

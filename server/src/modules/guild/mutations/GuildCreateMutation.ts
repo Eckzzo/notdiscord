@@ -24,17 +24,17 @@ const GuildCreateMutation = mutationWithClientMutationId({
       type: new GraphQLNonNull(GraphQLString),
     },
   },
-  mutateAndGetPayload: async ({ name, description }: GuildCreateMutationArgs, context: GraphQLContext) => {
+  mutateAndGetPayload: async ({ name, description }: GuildCreateMutationArgs, ctx: GraphQLContext) => {
     // TODO - move this check to a middleware
-    if (!context.user) {
+    if (!ctx.user) {
       return fieldError('name', 'Unauthorized');
     }
 
     const newGuild = await new GuildModel({
-      owner: context.user,
+      owner: ctx.user,
       name,
       description,
-      members: context.user,
+      members: ctx.user,
     }).save();
 
     return {
@@ -46,8 +46,8 @@ const GuildCreateMutation = mutationWithClientMutationId({
   outputFields: {
     newGuildEdge: {
       type: GuildConnection.edgeType,
-      resolve: async ({ id }, _, context) => {
-        const guild = await GuildLoader.load(context, id);
+      resolve: async ({ id }, _, ctx) => {
+        const guild = await GuildLoader.load(ctx, id);
 
         if (!guild) {
           return null;
