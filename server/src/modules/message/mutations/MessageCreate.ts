@@ -1,6 +1,7 @@
 import { GraphQLNonNull, GraphQLString } from 'graphql';
 import { fromGlobalId, mutationWithClientMutationId, toGlobalId } from 'graphql-relay';
 
+import { EVENTS, pubSub } from '../../../pubSub';
 import { MessageModel } from '../MessageModel';
 import * as MessageLoader from '../MessageLoader';
 import { MessageConnection } from '../MessageType';
@@ -41,6 +42,8 @@ const MessageCreateMutation = mutationWithClientMutationId({
     if (!newMessage) {
       throw new Error('Something went wrong');
     }
+
+    await pubSub.publish(EVENTS.MESSAGE.NEW, { messageId: newMessage._id });
 
     return {
       success: 'Message created!',

@@ -407,6 +407,16 @@ type MessageEdge {
   cursor: String!
 }
 
+input MessageNewInput {
+  location: String!
+  clientSubscriptionId: String
+}
+
+type MessageNewPayload {
+  message: MessageEdge
+  clientSubscriptionId: String
+}
+
 type Mutation {
   UserSignInMutation(input: UserSignInMutationInput!): UserSignInMutationPayload
   UserSignUpMutation(input: UserSignUpMutationInput!): UserSignUpMutationPayload
@@ -463,6 +473,10 @@ type Query {
   friendships(status: FriendshipStatus!, target: FriendshipTarget!, after: String, first: Int, before: String, last: Int): FriendshipConnection!
   guild(id: String!): Guild
   channel(id: String!): Channel
+}
+
+type Subscription {
+  MessageNewSubscription(input: MessageNewInput!): MessageNewPayload
 }
 
 """NotDiscord user"""

@@ -20,7 +20,6 @@ import { Text } from '@ui/Text';
 import { Header } from '@ui/Header';
 import { Separator } from '@ui/Separator';
 import { ChannelFeed } from 'components/Channel/ChannelFeed';
-import { MessageForm } from 'components/Message/MessageForm';
 
 const ChannelQuery = graphql`
 	query Cid_ChannelQuery($id: String!, $last: Int!, $before: String) {

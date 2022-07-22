@@ -10,9 +10,8 @@ import { usePaginationFragment } from 'react-relay';
 import { MessageForm } from 'components/Message/MessageForm';
 import { ScrollArea } from '@ui/ScrollArea';
 import { styled } from '@stitches';
-import { Box } from '@ui/Box';
-import { useEffect, useRef } from 'react';
-import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+import { useEffect, useMemo, useRef } from 'react';
+import { MessageNew } from './subscriptions/NewMessageSubscription';
 
 const StyledScrollArea = styled(ScrollArea, {
 	height: '100%',
@@ -50,9 +49,20 @@ const ChannelFeed: React.FC<ChannelFeedProps> = ({ fragmentKey }) => {
 	const ref = useRef<HTMLDivElement>(null);
 	const { data } = usePaginationFragment(ChannelFeedFragment, fragmentKey);
 
-	if (!data) {
-		return null;
-	}
+	// const config = useMemo(
+	// 	() => ({
+	// 		variables: {
+	// 			input: { location: data.id },
+	// 			connections: [data.messages?.__id!],
+	// 		},
+	// 		subscription: MessageNew,
+	// 	}),
+	// 	[data.id]
+	// );
+
+	// if (!data) {
+	// 	return null;
+	// }
 
 	// 6am solutions 🥺
 	useEffect(() => {
