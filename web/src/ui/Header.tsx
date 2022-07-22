@@ -2,6 +2,7 @@ import { styled } from '@stitches';
 
 const Header = styled('header', {
 	height: '69px',
+	minHeight: '69px',
 	maxHeight: '69px',
 	p: '$4',
 	display: 'flex',

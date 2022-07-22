@@ -37,7 +37,7 @@ const MessageForm: React.FC<MessageFormProps> = ({ fragmentKey, location }) => {
 	const [createMessage, isLoading] =
 		useMutation<MessageCreateMutation>(MessageCreate);
 	const data = useFragment(MessageFormFragment, fragmentKey);
-	const { register, handleSubmit } = useForm<FormValues>({
+	const { register, handleSubmit, reset } = useForm<FormValues>({
 		resolver,
 	});
 
@@ -50,7 +50,10 @@ const MessageForm: React.FC<MessageFormProps> = ({ fragmentKey, location }) => {
 			variables: { input: { ...input, location }, connections: [data.__id] },
 		};
 
-		createMessage(config);
+		if (!isLoading) {
+			createMessage(config);
+			reset();
+		}
 	};
 
 	return (

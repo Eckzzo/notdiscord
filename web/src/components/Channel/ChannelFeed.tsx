@@ -19,6 +19,7 @@ const StyledScrollArea = styled(ScrollArea, {
 	maxHeight: '100%',
 	overflow: 'hidden',
 	display: 'flex',
+	zIndex: '1',
 });
 
 const ChannelFeedFragment = graphql`
@@ -53,6 +54,7 @@ const ChannelFeed: React.FC<ChannelFeedProps> = ({ fragmentKey }) => {
 		return null;
 	}
 
+	// 6am solutions 🥺
 	useEffect(() => {
 		if (ref.current) {
 			ref.current?.scrollIntoView();
@@ -70,7 +72,7 @@ const ChannelFeed: React.FC<ChannelFeedProps> = ({ fragmentKey }) => {
 						<Text color="lowContrast">This is the start of #{data.name}</Text>
 					</Flex>
 					<Separator />
-					<Flex direction="column" gap={5} css={{ px: '$2' }}>
+					<Flex direction="column" gap={6} css={{ px: '$2' }}>
 						{data.messages?.edges.map((_, index, arr) => {
 							// const arr = [a, b, c, d, f]
 							// arr[5 - 1 - 0] -> arr[4]
