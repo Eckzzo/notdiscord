@@ -1,6 +1,6 @@
-import { connectionDefinitions, globalIdField } from 'graphql-relay';
+import { globalIdField } from 'graphql-relay';
 import { GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
-import { objectIdResolver, timestampResolver } from '@entria/graphql-mongo-helpers';
+import { objectIdResolver, timestampResolver, connectionDefinitions } from '@entria/graphql-mongo-helpers';
 
 import { GraphQLContext } from '../../graphql/context';
 
