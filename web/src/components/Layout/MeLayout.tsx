@@ -29,9 +29,19 @@ const MeLayout: React.FC<MeLayoutProps> = ({ children }) => {
 						/>
 					</Field>
 				</Box>
-				<Text variant="cap" weight="semibold" spaced uppercase>
-					Direct Messages
-				</Text>
+				<Flex direction="column" css={{ py: '$4', px: '$2' }} gap={2} grow>
+					<Flex align="center" justify="between">
+						<Text
+							variant="cap"
+							weight="semibold"
+							css={{ px: '$3' }}
+							spaced
+							uppercase
+						>
+							Direct Messages
+						</Text>
+					</Flex>
+				</Flex>
 			</SubNav>
 			<Flex direction="column" grow>
 				<Header>

@@ -9,8 +9,9 @@ import * as UserLoader from '../user/UserLoader';
 import { ChannelType } from '../channel/ChannelType';
 import * as ChannelLoader from '../channel/ChannelLoader';
 
-import { nodeInterface } from '../node/typeRegister';
+import { nodeInterface, registerTypeLoader } from '../node/typeRegister';
 
+import { load } from './MessageLoader';
 import { MessageDocument } from './MessageModel';
 
 const MessageType = new GraphQLObjectType<MessageDocument, GraphQLContext>({
@@ -44,5 +45,7 @@ const MessageConnection = connectionDefinitions({
   name: 'Message',
   nodeType: MessageType,
 });
+
+registerTypeLoader(MessageType, load);
 
 export { MessageType, MessageConnection };

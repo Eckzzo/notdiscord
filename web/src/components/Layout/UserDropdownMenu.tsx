@@ -101,7 +101,7 @@ const UserDropdownMenu: React.FC<UserDropdownMenuProps> = ({ fragmentKey }) => {
 		<Suspense>
 			<DropdownMenu>
 				<DropdownMenu.Trigger asChild>
-					<Avatar src="/anya.jpg" status="green" interactive />
+					<Avatar src="/anya.jpg" interactive />
 				</DropdownMenu.Trigger>
 				<DropdownMenu.Content side="right">
 					<Avatar src="/anya.jpg" size="9" />

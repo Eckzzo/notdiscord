@@ -1,20 +1,23 @@
 import { Fragment } from 'react';
-import { ChatBubbleIcon, PlusIcon } from '@radix-ui/react-icons';
 import { graphql, PreloadedQuery, usePreloadedQuery } from 'react-relay';
+import { ChatBubbleIcon, PlusIcon, RocketIcon } from '@radix-ui/react-icons';
 
 import { Text } from '@ui/Text';
 import { Flex } from '@ui/Flex';
-import { SubNav } from './SubNav';
-import { IconButton } from '@ui/IconButton';
+import { Header } from '@ui/Header';
 import { LinkButton } from '@ui/LinkButton';
+import { SubNav, SubNavButton } from './SubNav';
 import { AddChannelDialog } from 'components/Guild/AddChannelDialog';
 import { GuildLayoutQuery as GuildLayoutQueryType } from '__generated__/GuildLayoutQuery.graphql';
+import { GuildInviteDialog } from 'components/Guild/GuildInviteDialog';
 
 const GuildLayoutQuery = graphql`
 	query GuildLayoutQuery($id: String!, $first: Int) {
 		guild(id: $id) {
 			id
 			name
+			amIOwner
+			...GuildInviteDialogFragment
 			channels(first: $first)
 				@connection(key: "GuildConnection_channels", filters: ["guildId"]) {
 				...AddChannelDialogFragment
@@ -49,6 +52,27 @@ const GuildLayout: React.FC<GuildLayoutProps> = ({ children, queryRef }) => {
 	return (
 		<Fragment>
 			<SubNav>
+				<Header>
+					<Text weight="semibold">{guild.name}</Text>
+				</Header>
+				<Flex
+					gap={2}
+					direction="column"
+					css={{ py: '$3', px: '$2', borderBottom: '1px solid $gray300' }}
+				>
+					<AddChannelDialog fragmentKey={guild.channels} guildId={guild.id}>
+						<SubNavButton>
+							<PlusIcon />
+							Add Channel
+						</SubNavButton>
+					</AddChannelDialog>
+					<GuildInviteDialog fragmentKey={guild}>
+						<SubNavButton>
+							<RocketIcon />
+							Invite to Guild
+						</SubNavButton>
+					</GuildInviteDialog>
+				</Flex>
 				<Flex direction="column" css={{ py: '$4', px: '$2' }} gap={2} grow>
 					<Flex align="center" justify="between">
 						<Text
@@ -60,11 +84,6 @@ const GuildLayout: React.FC<GuildLayoutProps> = ({ children, queryRef }) => {
 						>
 							Channels
 						</Text>
-						<AddChannelDialog guildId={guild.id} fragmentKey={guild.channels}>
-							<IconButton variant="ghost" size="xs">
-								<PlusIcon />
-							</IconButton>
-						</AddChannelDialog>
 					</Flex>
 					{data.guild.channels.edges.map((edge) => {
 						return (

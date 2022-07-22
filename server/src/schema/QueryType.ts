@@ -10,6 +10,7 @@ import { GuildModel } from '../modules/guild/GuildModel';
 import * as GuildLoader from '../modules/guild/GuildLoader';
 import { ChannelType } from '../modules/channel/ChannelType';
 import * as ChannelLoader from '../modules/channel/ChannelLoader';
+import { nodeField, nodesField } from '../modules/node/typeRegister';
 import * as FriendshipLoader from '../modules/friendship/FriendshipLoader';
 import { FriendshipConnection, FriendshipConnectionArgs } from '../modules/friendship/FriendshipType';
 import { FriendshipStatusEnum, FriendshipTargetEnum } from '../modules/friendship/FriendshipFilterInputType';
@@ -18,6 +19,8 @@ const QueryType = new GraphQLObjectType({
   name: 'Query',
   description: 'Queries',
   fields: () => ({
+    node: nodeField,
+    nodes: nodesField,
     me: {
       type: UserType,
       resolve: (_, __, ctx: GraphQLContext) => {

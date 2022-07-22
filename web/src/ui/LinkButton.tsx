@@ -67,6 +67,9 @@ const StyledLinkButton = styled('button', {
 			active: true,
 			css: {
 				backgroundColor: '$grayA200',
+				'&:hover': {
+					backgroundColor: '$grayA200',
+				},
 			},
 		},
 	],

@@ -19,13 +19,16 @@ import { Flex } from '@ui/Flex';
 import { Text } from '@ui/Text';
 import { Header } from '@ui/Header';
 import { Separator } from '@ui/Separator';
+import { ChannelFeed } from 'components/Channel/ChannelFeed';
+import { MessageForm } from 'components/Message/MessageForm';
 
 const ChannelQuery = graphql`
-	query Cid_ChannelQuery($id: String!) {
+	query Cid_ChannelQuery($id: String!, $last: Int!, $before: String) {
 		channel(id: $id) {
 			id
 			name
 			description
+			...ChannelFeedFragment
 		}
 	}
 `;
@@ -58,6 +61,7 @@ const Channel: NextPageWithLayout<ChannelProps> = ({ queryRefs }) => {
 					<Text color="lowContrast">{channel.description}</Text>
 				</Flex>
 			</Header>
+			<ChannelFeed fragmentKey={data.channel} />
 		</Flex>
 	);
 };
@@ -102,7 +106,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	return {
 		props: {
 			preloadedQueries: {
-				pageQuery: await getPreloadedQuery(pageQuery, { id }, token),
+				pageQuery: await getPreloadedQuery(
+					pageQuery,
+					{ id, last: 25, before: null },
+					token
+				),
 				layoutQuery: await getPreloadedQuery(layoutQuery, { first: 10 }, token),
 				nestedLayoutQuery: await getPreloadedQuery(
 					nestedLayoutQuery,

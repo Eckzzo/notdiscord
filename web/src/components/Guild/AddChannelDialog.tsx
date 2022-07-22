@@ -9,7 +9,6 @@ import { Text } from '@ui/Text';
 import { Button } from '@ui/Button';
 import { Dialog } from '@ui/Dialog';
 import { TextField } from '@ui/Field';
-import { Tooltip } from '@ui/Tooltip';
 import { Heading } from '@ui/Heading';
 import { Spinner } from '@ui/Spinner';
 import { AddChannel } from './mutations/AddChannelMutation';
@@ -61,9 +60,7 @@ const AddChannelDialog: React.FC<AddChannelDialogProps> = ({
 
 	return (
 		<Dialog>
-			<Tooltip content="Add Channel" side="right" sideOffset={2}>
-				<Dialog.Trigger asChild>{children}</Dialog.Trigger>
-			</Tooltip>
+			<Dialog.Trigger asChild>{children}</Dialog.Trigger>
 			<Dialog.Content>
 				<Form onSubmit={handleSubmit(onSubmit)}>
 					<Flex direction="column" gap={1}>

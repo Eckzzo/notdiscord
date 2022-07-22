@@ -1,6 +1,7 @@
+import NextLink from 'next/link';
 import { graphql } from 'relay-runtime';
 import { useFragment } from 'react-relay';
-import { EnvelopeClosedIcon, PlusIcon } from '@radix-ui/react-icons';
+import { EnvelopeClosedIcon, GlobeIcon, PlusIcon } from '@radix-ui/react-icons';
 
 import { Flex } from '@ui/Flex';
 import { styled } from '@stitches';
@@ -9,6 +10,7 @@ import { IconButton } from '@ui/IconButton';
 import { UserDropdownMenu } from './UserDropdownMenu';
 import { GuildList } from 'components/Guild/GuildList';
 import { NewGuildDialog } from 'components/Guild/NewGuildDialog';
+import { JoinGuildDialog } from 'components/Guild/JoinGuildDialog';
 import { SideNavFragment$key } from '../../__generated__/SideNavFragment.graphql';
 
 /* -------------------------------------------------------------------------------------------------
@@ -20,6 +22,7 @@ const SideNavFragment = graphql`
 		guilds(first: $first) @connection(key: "SideNav_guilds", filters: []) {
 			...GuildListFragment
 			...NewGuildDialogFragment
+			...JoinGuildDialogFragment
 			edges {
 				cursor
 			}
@@ -58,9 +61,11 @@ const SideNav: React.FC<SideNavProps> = ({ fragmentKey }) => {
 	return (
 		<StyledSideNav>
 			<Flex direction="column" gap={4}>
-				<IconButton>
-					<EnvelopeClosedIcon />
-				</IconButton>
+				<NextLink href="/me">
+					<IconButton>
+						<EnvelopeClosedIcon />
+					</IconButton>
+				</NextLink>
 				<Separator />
 			</Flex>
 			<Flex direction="column" gap={2}>
@@ -70,6 +75,11 @@ const SideNav: React.FC<SideNavProps> = ({ fragmentKey }) => {
 						<PlusIcon />
 					</IconButton>
 				</NewGuildDialog>
+				<JoinGuildDialog fragmentKey={data.guilds}>
+					<IconButton variant="tertiary">
+						<GlobeIcon />
+					</IconButton>
+				</JoinGuildDialog>
 			</Flex>
 			<Flex direction="column" gap={4}>
 				<Separator />
