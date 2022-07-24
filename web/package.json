@@ -20,6 +20,7 @@
     "@radix-ui/react-tooltip": "^0.1.7",
     "@radix-ui/react-visually-hidden": "^1.0.0",
     "@stitches/react": "^1.2.8",
+    "graphql-ws": "^5.9.1",
     "next": "12.1.6",
     "next-themes": "^0.2.0",
     "react": "18.2.0",
@@ -27,6 +28,7 @@
     "react-hook-form": "^7.33.1",
     "react-relay": "^14.0.0",
     "relay-runtime": "^14.0.0",
+    "ws": "^8.8.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {
@@ -36,6 +38,7 @@
     "@types/react-dom": "18.0.6",
     "@types/react-relay": "^13.0.2",
     "@types/relay-runtime": "^13.0.3",
+    "@types/ws": "^8.5.3",
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.0",
     "get-graphql-schema": "^2.1.2",

@@ -6,6 +6,7 @@ import {
 	RequestParameters,
 	Variables,
 } from 'relay-runtime';
+import { subscribe } from './subscription';
 
 const ONE_MINUTE_IN_MS = 60 * 1000;
 
@@ -35,7 +36,7 @@ function createNetwork() {
 		return networkFetch(operation, variables);
 	}
 
-	const network = Network.create(fetchResponse);
+	const network = Network.create(fetchResponse, subscribe);
 	// @ts-ignore Private API Hackery? 🤷‍♂️
 	network.responseCache = responseCache;
 	return network;

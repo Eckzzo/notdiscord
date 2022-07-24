@@ -1,23 +1,15 @@
 import { fromGlobalId, toGlobalId } from 'graphql-relay';
-import { withFilter } from 'graphql-subscriptions';
 import { GraphQLNonNull, GraphQLString } from 'graphql';
 import { subscriptionWithClientId } from 'graphql-relay-subscription';
+import { withFilter } from 'graphql-subscriptions';
 
 import { MessageConnection } from '../MessageType';
 import { pubSub, EVENTS } from '../../../pubSub';
 import { GraphQLContext } from '../../../graphql/context';
-import { MessageDocument, MessageModel } from '../MessageModel';
+import * as MessageLoader from '../MessageLoader';
 
 interface MessageNew {
-  messageId: string;
-}
-
-interface MessageNewSubscriptionArgs {
-  location: string;
-}
-
-interface MessageNewSubscriptionPayload {
-  message: MessageDocument;
+  id: string;
 }
 
 const MessageNewSubscription = subscriptionWithClientId<MessageNew, GraphQLContext>({
@@ -30,27 +22,33 @@ const MessageNewSubscription = subscriptionWithClientId<MessageNew, GraphQLConte
   outputFields: {
     message: {
       type: MessageConnection.edgeType,
-      resolve: async ({ messageId }: { messageId: string }) => {
-        const message = await MessageModel.findOne({ _id: messageId });
-
-        if (!message) {
+      resolve: async ({ id }, _, context) => {
+        const node = await MessageLoader.load(context, id);
+        if (!node) {
           return null;
         }
 
         return {
-          cursor: toGlobalId('Message', message._id),
-          node: message,
+          node,
+          cursor: toGlobalId('Message', node._id),
         };
       },
     },
   },
   subscribe: withFilter(
-    () => pubSub.asyncIterator(EVENTS.MESSAGE.NEW),
-    (payload: MessageNewSubscriptionPayload, { location }: MessageNewSubscriptionArgs) => {
-      const channel = fromGlobalId(location);
-      return payload.message.location.equals(channel.id);
+    () => {
+      return pubSub.asyncIterator(EVENTS.MESSAGE.NEW);
+    },
+    (v, _, c) => {
+      // we dont talk about this
+      return v.channel.equals(fromGlobalId(c.variableValues.input.location).id);
     },
   ),
+  getPayload: ({ id }: MessageNew) => {
+    return {
+      id: id,
+    };
+  },
 });
 
 export { MessageNewSubscription };

@@ -1,12 +1,9 @@
 import { graphql } from 'relay-runtime';
 
 const MessageCreate = graphql`
-	mutation MessageCreateMutation(
-		$input: MessageCreateInput!
-		$connections: [ID!]!
-	) {
+	mutation MessageCreateMutation($input: MessageCreateInput!) {
 		MessageCreateMutation(input: $input) {
-			newMessageEdge @prependEdge(connections: $connections) {
+			newMessageEdge {
 				node {
 					id
 					content

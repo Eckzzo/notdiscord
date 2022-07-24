@@ -43,7 +43,7 @@ const MessageCreateMutation = mutationWithClientMutationId({
       throw new Error('Something went wrong');
     }
 
-    await pubSub.publish(EVENTS.MESSAGE.NEW, { messageId: newMessage._id });
+    await pubSub.publish(EVENTS.MESSAGE.NEW, { id: newMessage._id, channel: newMessage.location });
 
     return {
       success: 'Message created!',

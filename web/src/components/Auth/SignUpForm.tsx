@@ -57,7 +57,7 @@ function SignUpForm() {
 	const [signUp, isInFlight] = useMutation<SignUpMutationType>(SignUpMutation);
 
 	const onSubmit = useCallback(
-		(input: FormValues) => {
+		({ confirmPassword, ...input }: FormValues) => {
 			const config = {
 				variables: { input },
 				onCompleted: (data: SignUpMutation$data) => {

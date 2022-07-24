@@ -6,12 +6,12 @@ import { Separator } from '@ui/Separator';
 import { Message } from 'components/Message/Message';
 import { graphql } from 'relay-runtime';
 import { ChannelFeedFragment$key } from '__generated__/ChannelFeedFragment.graphql';
-import { usePaginationFragment } from 'react-relay';
+import { usePaginationFragment, useSubscription } from 'react-relay';
 import { MessageForm } from 'components/Message/MessageForm';
 import { ScrollArea } from '@ui/ScrollArea';
 import { styled } from '@stitches';
-import { useEffect, useMemo, useRef } from 'react';
-import { MessageNew } from './subscriptions/NewMessageSubscription';
+import { useEffect, useRef } from 'react';
+import { useChannelSubscription } from './subscriptions/useChannelSubscription';
 
 const StyledScrollArea = styled(ScrollArea, {
 	height: '100%',
@@ -49,20 +49,14 @@ const ChannelFeed: React.FC<ChannelFeedProps> = ({ fragmentKey }) => {
 	const ref = useRef<HTMLDivElement>(null);
 	const { data } = usePaginationFragment(ChannelFeedFragment, fragmentKey);
 
-	// const config = useMemo(
-	// 	() => ({
-	// 		variables: {
-	// 			input: { location: data.id },
-	// 			connections: [data.messages?.__id!],
-	// 		},
-	// 		subscription: MessageNew,
-	// 	}),
-	// 	[data.id]
-	// );
+	useChannelSubscription({
+		input: { location: data.id },
+		connections: [data.messages?.__id!],
+	});
 
-	// if (!data) {
-	// 	return null;
-	// }
+	if (!data) {
+		return null;
+	}
 
 	// 6am solutions 🥺
 	useEffect(() => {

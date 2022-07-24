@@ -7,6 +7,7 @@ const MessageNew = graphql`
 	) {
 		MessageNewSubscription(input: $input) {
 			message @prependEdge(connections: $connections) {
+				cursor
 				node {
 					...MessageFragment
 				}

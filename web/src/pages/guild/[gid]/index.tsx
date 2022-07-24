@@ -17,10 +17,10 @@ import pageQuery, {
 	Gid_GuildQuery,
 } from '__generated__/Gid_GuildQuery.graphql';
 import { Flex } from '@ui/Flex';
-import { Highlight } from '@ui/Highlight';
 import { Text } from '@ui/Text';
 import { Header } from '@ui/Header';
 import { Separator } from '@ui/Separator';
+import { Highlight } from '@ui/Highlight';
 
 const GuildQuery = graphql`
 	query Gid_GuildQuery($id: String!) {

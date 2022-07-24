@@ -1,4 +1,4 @@
-import { createServer } from 'http';
+import http from 'http';
 
 import { WebSocketServer } from 'ws';
 import { execute, subscribe } from 'graphql';
@@ -8,11 +8,12 @@ import { app } from './app';
 import { config } from './config';
 import { schema } from './schema/schema';
 import { connectDatabase } from './database';
+import { getContext } from './getContext';
 
 (async () => {
   await connectDatabase();
 
-  const server = createServer(app.callback());
+  const server = http.createServer(app.callback());
 
   server.listen(config.PORT, () => {
     // eslint-disable-next-line
@@ -20,6 +21,7 @@ import { connectDatabase } from './database';
     const wsServer = new WebSocketServer({ server, path: '/subscriptions' });
     useServer(
       {
+        context: async () => getContext({ user: null }),
         schema,
         execute,
         subscribe,

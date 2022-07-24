@@ -4,7 +4,7 @@ import { UserDocument } from './modules/user/UserModel';
 import { getDataloaders } from './modules/loader/loaderRegister';
 
 interface ContextVars {
-  ctx: ParameterizedContext;
+  ctx?: ParameterizedContext;
   user: UserDocument | null;
 }
 
