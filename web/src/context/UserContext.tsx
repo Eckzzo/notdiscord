@@ -17,8 +17,7 @@ interface UserContextValue {
   user: UserContextFragment$key;
 }
 
-const [UserContextProvider, useUserContext] =
-  createRootContext<UserContextValue>('UserContext');
+const [UserContextProvider, useUserContext] = createRootContext<UserContextValue>('UserContext');
 
 interface UserContextProps {
   fragmentRef: UserContextFragment$key;

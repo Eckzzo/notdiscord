@@ -6,8 +6,8 @@ import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
  * ----------------------------------------------------------------------------------------------- */
 
 const Viewport = styled(ScrollAreaPrimitive.Viewport, {
-	width: '100%',
-	borderRadius: 'inherit',
+  width: '100%',
+  borderRadius: 'inherit',
 });
 
 Viewport.displayName = 'ScrollAreaViewport';
@@ -17,26 +17,26 @@ Viewport.displayName = 'ScrollAreaViewport';
  * ----------------------------------------------------------------------------------------------- */
 
 const Scrollbar = styled(ScrollAreaPrimitive.Scrollbar, {
-	display: 'flex',
-	userSelect: 'none',
-	touchAction: 'none',
-	padding: '2px',
-	background: 'rgba(128, 128, 128, 0.2)',
-	opacity: 1,
-	transition: 'background 150ms ease',
+  display: 'flex',
+  userSelect: 'none',
+  touchAction: 'none',
+  padding: '2px',
+  background: 'rgba(128, 128, 128, 0.2)',
+  opacity: 1,
+  transition: 'background 150ms ease',
 
-	'&:hover': {
-		background: 'rgba(128, 128, 128, 0.4)',
-	},
+  '&:hover': {
+    background: 'rgba(128, 128, 128, 0.4)',
+  },
 
-	"&[data-orientation='vertical']": {
-		width: '10px',
-	},
+  "&[data-orientation='vertical']": {
+    width: '10px',
+  },
 
-	"&[data-orientation='horizontal']": {
-		height: '10px',
-		flexDirection: 'column',
-	},
+  "&[data-orientation='horizontal']": {
+    height: '10px',
+    flexDirection: 'column',
+  },
 });
 
 Scrollbar.displayName = 'Scrollbar';
@@ -46,22 +46,22 @@ Scrollbar.displayName = 'Scrollbar';
  * ----------------------------------------------------------------------------------------------- */
 
 const ScrollThumb = styled(ScrollAreaPrimitive.Thumb, {
-	position: 'relative',
-	flex: 1,
-	background: '$grayA600',
-	borderRadius: '$2',
+  position: 'relative',
+  flex: 1,
+  background: '$grayA600',
+  borderRadius: '$2',
 
-	'&::before': {
-		content: '',
-		position: 'absolute',
-		top: '50%',
-		left: '50%',
-		transform: 'translate(-50%, -50%)',
-		width: '100%',
-		height: '100%',
-		minHeight: '44px',
-		minWidth: '44px',
-	},
+  '&::before': {
+    content: '',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '100%',
+    height: '100%',
+    minHeight: '44px',
+    minWidth: '44px',
+  },
 });
 
 ScrollThumb.displayName = 'ScrollThumb';
@@ -71,7 +71,7 @@ ScrollThumb.displayName = 'ScrollThumb';
  * ----------------------------------------------------------------------------------------------- */
 
 const Corner = styled(ScrollAreaPrimitive.Corner, {
-	backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
 });
 
 Corner.displayName = 'ScrollAreaCorner';
@@ -81,20 +81,20 @@ Corner.displayName = 'ScrollAreaCorner';
  * ----------------------------------------------------------------------------------------------- */
 
 interface ScrollAreaProps {
-	children?: React.ReactNode;
-	type?: 'auto' | 'hover' | 'scroll' | 'always';
+  children?: React.ReactNode;
+  type?: 'auto' | 'hover' | 'scroll' | 'always';
 }
 
 const ScrollArea: React.FC<ScrollAreaProps> = ({ children, ...props }) => {
-	return (
-		<ScrollAreaPrimitive.Root {...props}>
-			<Viewport>{children}</Viewport>
-			<Scrollbar orientation="vertical">
-				<ScrollThumb />
-			</Scrollbar>
-			<Corner />
-		</ScrollAreaPrimitive.Root>
-	);
+  return (
+    <ScrollAreaPrimitive.Root {...props}>
+      <Viewport>{children}</Viewport>
+      <Scrollbar orientation='vertical'>
+        <ScrollThumb />
+      </Scrollbar>
+      <Corner />
+    </ScrollAreaPrimitive.Root>
+  );
 };
 
 export { ScrollArea };

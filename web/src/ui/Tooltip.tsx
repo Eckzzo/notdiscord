@@ -36,15 +36,7 @@ type TooltipProps = React.ComponentProps<typeof TooltipPrimitive.Root> &
     content: React.ReactNode;
   };
 
-function Tooltip({
-  children,
-  content,
-  open,
-  defaultOpen,
-  delayDuration,
-  onOpenChange,
-  ...props
-}: TooltipProps) {
+function Tooltip({ children, content, open, defaultOpen, delayDuration, onOpenChange, ...props }: TooltipProps) {
   return (
     <TooltipPrimitive.Root
       open={open}
@@ -54,7 +46,7 @@ function Tooltip({
     >
       <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
       <Content {...props}>
-        <Text variant="cap">{content}</Text>
+        <Text variant='cap'>{content}</Text>
         <TooltipPrimitive.Arrow asChild>
           <Arrow />
         </TooltipPrimitive.Arrow>

@@ -5,8 +5,7 @@ interface FieldContextValue {
   id: string;
 }
 
-const [FieldContextProvider, useFieldContext] =
-  createRootContext<FieldContextValue>('FieldContext');
+const [FieldContextProvider, useFieldContext] = createRootContext<FieldContextValue>('FieldContext');
 
 interface FieldContextProps {
   children?: React.ReactNode;

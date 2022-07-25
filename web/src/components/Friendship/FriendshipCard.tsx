@@ -1,3 +1,4 @@
+import React from 'react';
 import { graphql, useFragment } from 'react-relay';
 
 import { Text } from '@ui/Text';
@@ -33,26 +34,19 @@ interface FriendshipCardProps {
   message?: string;
 }
 
-const FriendshipCard: React.FC<FriendshipCardProps> = ({
-  fragmentRef,
-  message,
-  children,
-}) => {
-  const data = useFragment<FriendshipCardFragment$key>(
-    FriendshipCardFragment,
-    fragmentRef,
-  );
+const FriendshipCard: React.FC<FriendshipCardProps> = ({ fragmentRef, message, children }) => {
+  const data = useFragment<FriendshipCardFragment$key>(FriendshipCardFragment, fragmentRef);
   return (
     <StyledFriendshipCard>
-      <Flex align="center" gap={3}>
-        <Avatar src="/anya.jpg" />
-        <Flex direction="column" gap={1}>
-          <Text weight="semibold">
+      <Flex align='center' gap={3}>
+        <Avatar fallback={data.username} />
+        <Flex direction='column' gap={1}>
+          <Text weight='semibold'>
             {data.username}
-            <Highlight color="lowContrast">#{data.denominator}</Highlight>
+            <Highlight color='lowContrast'>#{data.denominator}</Highlight>
           </Text>
           {message && (
-            <Text variant="cap" color="lowContrast">
+            <Text variant='cap' color='lowContrast'>
               {message}
             </Text>
           )}

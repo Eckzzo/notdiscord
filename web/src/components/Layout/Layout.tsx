@@ -1,3 +1,4 @@
+import React from 'react';
 import { styled } from '@stitches';
 import { graphql, PreloadedQuery, usePreloadedQuery } from 'react-relay';
 
@@ -9,11 +10,11 @@ import { LayoutQuery as LayoutQueryType } from '../../__generated__/LayoutQuery.
  * ----------------------------------------------------------------------------------------------- */
 
 const LayoutQuery = graphql`
-	query LayoutQuery($first: Int) {
-		me {
-			...SideNavFragment
-		}
-	}
+  query LayoutQuery($first: Int) {
+    me {
+      ...SideNavFragment
+    }
+  }
 `;
 
 /* -------------------------------------------------------------------------------------------------
@@ -21,9 +22,9 @@ const LayoutQuery = graphql`
  * ----------------------------------------------------------------------------------------------- */
 
 const StyledLayout = styled('main', {
-	overflow: 'hidden',
-	height: '100vh',
-	display: 'flex',
+  overflow: 'hidden',
+  height: '100vh',
+  display: 'flex',
 });
 
 /* -------------------------------------------------------------------------------------------------
@@ -31,24 +32,24 @@ const StyledLayout = styled('main', {
  * ----------------------------------------------------------------------------------------------- */
 
 interface LayoutProps {
-	queryRef: PreloadedQuery<LayoutQueryType>;
-	children?: React.ReactNode;
+  queryRef: PreloadedQuery<LayoutQueryType>;
+  children?: React.ReactNode;
 }
 
 const Layout: React.FC<LayoutProps> = ({ queryRef, children }) => {
-	const data = usePreloadedQuery<LayoutQueryType>(LayoutQuery, queryRef);
+  const data = usePreloadedQuery<LayoutQueryType>(LayoutQuery, queryRef);
 
-	if (!data.me) {
-		// TODO: Loading state
-		return null;
-	}
+  if (!data.me) {
+    // TODO: Loading state
+    return null;
+  }
 
-	return (
-		<StyledLayout>
-			<SideNav fragmentKey={data.me} />
-			{children}
-		</StyledLayout>
-	);
+  return (
+    <StyledLayout>
+      <SideNav fragmentKey={data.me} />
+      {children}
+    </StyledLayout>
+  );
 };
 
 Layout.displayName = 'Layout';

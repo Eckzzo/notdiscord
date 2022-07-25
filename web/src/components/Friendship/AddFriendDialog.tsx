@@ -1,3 +1,4 @@
+import React from 'react';
 import * as yup from 'yup';
 import { useMutation } from 'react-relay';
 import { useForm } from 'react-hook-form';
@@ -15,23 +16,17 @@ import { Spinner } from '@ui/Spinner';
 import { Heading } from '@ui/Heading';
 import { IconButton } from '@ui/IconButton';
 
-import {
-	FriendshipSend,
-	FriendshipSendUpdater,
-} from './mutations/FriendshipSendMutation';
-import {
-	FriendshipSendMutation,
-	FriendshipSendMutation$data,
-} from '__generated__/FriendshipSendMutation.graphql';
+import { FriendshipSend, FriendshipSendUpdater } from './mutations/FriendshipSendMutation';
+import { FriendshipSendMutation, FriendshipSendMutation$data } from '__generated__/FriendshipSendMutation.graphql';
 
 /* -------------------------------------------------------------------------------------------------
  * Styled Items
  * ----------------------------------------------------------------------------------------------- */
 
 const StyledForm = styled('form', {
-	display: 'flex',
-	alignItems: 'end',
-	gap: '$2',
+  display: 'flex',
+  alignItems: 'end',
+  gap: '$2',
 });
 
 /* -------------------------------------------------------------------------------------------------
@@ -39,18 +34,16 @@ const StyledForm = styled('form', {
  * ----------------------------------------------------------------------------------------------- */
 
 const Title: React.FC = () => {
-	return (
-		<Flex direction="column" gap={1}>
-			<Dialog.Title asChild>
-				<Heading variant="h5">Add Friend</Heading>
-			</Dialog.Title>
-			<Dialog.Description asChild>
-				<Text color="lowContrast">
-					Add a friend by using their NotDiscord tag!
-				</Text>
-			</Dialog.Description>
-		</Flex>
-	);
+  return (
+    <Flex direction='column' gap={1}>
+      <Dialog.Title asChild>
+        <Heading variant='h5'>Add Friend</Heading>
+      </Dialog.Title>
+      <Dialog.Description asChild>
+        <Text color='lowContrast'>Add a friend by using their NotDiscord tag!</Text>
+      </Dialog.Description>
+    </Flex>
+  );
 };
 
 /* -------------------------------------------------------------------------------------------------
@@ -58,76 +51,67 @@ const Title: React.FC = () => {
  * ----------------------------------------------------------------------------------------------- */
 
 interface FormValues {
-	username: string;
+  username: string;
 }
 
 const formSchema = yup.object({
-	username: yup.string().required('Required').trim(),
+  username: yup.string().required('Required').trim(),
 });
 
 const resolver = yupResolver(formSchema);
 
 const Form: React.FC = () => {
-	const [successMessage, setSuccessMessage] = useState<null | string>(null);
+  const [successMessage, setSuccessMessage] = useState<null | string>(null);
 
-	const [sendFriendship, loading] =
-		useMutation<FriendshipSendMutation>(FriendshipSend);
+  const [sendFriendship, loading] = useMutation<FriendshipSendMutation>(FriendshipSend);
 
-	const { register, handleSubmit, formState, setError } = useForm<FormValues>({
-		resolver,
-	});
+  const { register, handleSubmit, formState, setError } = useForm<FormValues>({
+    resolver,
+  });
 
-	const { errors } = formState;
+  const { errors } = formState;
 
-	const onSubmit = useCallback(
-		(input: FormValues) => {
-			setSuccessMessage(null);
+  const onSubmit = useCallback(
+    (input: FormValues) => {
+      setSuccessMessage(null);
 
-			const config = {
-				variables: { input },
-				updater: FriendshipSendUpdater,
-				onCompleted: (data: FriendshipSendMutation$data) => {
-					const { FriendshipSendMutation } = data;
-					const { error, success } = FriendshipSendMutation!;
-					if (error && error.message) {
-						const { message } = error;
-						setError('username', { message });
-					}
-					if (success) {
-						setSuccessMessage(success);
-					}
-				},
-			};
+      const config = {
+        variables: { input },
+        updater: FriendshipSendUpdater,
+        onCompleted: (data: FriendshipSendMutation$data) => {
+          if (!data.FriendshipSendMutation) return;
+          const { FriendshipSendMutation } = data;
+          const { error, success } = FriendshipSendMutation;
+          if (error && error.message) {
+            const { message } = error;
+            setError('username', { message });
+          }
+          if (success) {
+            setSuccessMessage(success);
+          }
+        },
+      };
 
-			sendFriendship(config);
-		},
-		[sendFriendship, setError]
-	);
+      sendFriendship(config);
+    },
+    [sendFriendship, setError],
+  );
 
-	return (
-		<StyledForm onSubmit={handleSubmit(onSubmit)}>
-			<Field>
-				<Flex direction="column" gap={1} grow>
-					<Field.Label>Username</Field.Label>
-					<Flex gap={1}>
-						<Field.Input
-							placeholder="Username#0000"
-							{...register('username')}
-						/>
-						<IconButton type="submit">
-							{loading ? <Spinner /> : <MagnifyingGlassIcon />}
-						</IconButton>
-					</Flex>
-					{errors && (
-						<Message variant="error">{errors.username?.message}</Message>
-					)}
-					{successMessage && (
-						<Message variant="success">{successMessage}</Message>
-					)}
-				</Flex>
-			</Field>
-		</StyledForm>
-	);
+  return (
+    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+      <Field>
+        <Flex direction='column' gap={1} grow>
+          <Field.Label>Username</Field.Label>
+          <Flex gap={1}>
+            <Field.Input placeholder='Username#0000' {...register('username')} />
+            <IconButton type='submit'>{loading ? <Spinner /> : <MagnifyingGlassIcon />}</IconButton>
+          </Flex>
+          {errors && <Message variant='error'>{errors.username?.message}</Message>}
+          {successMessage && <Message variant='success'>{successMessage}</Message>}
+        </Flex>
+      </Field>
+    </StyledForm>
+  );
 };
 
 /* -------------------------------------------------------------------------------------------------
@@ -135,18 +119,18 @@ const Form: React.FC = () => {
  * ----------------------------------------------------------------------------------------------- */
 
 interface ContentProps {
-	children?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const Content: React.FC<ContentProps> = ({ children }) => {
-	return (
-		<Dialog.Content>
-			<Flex direction="column" gap={4}>
-				<Title />
-				{children}
-			</Flex>
-		</Dialog.Content>
-	);
+  return (
+    <Dialog.Content>
+      <Flex direction='column' gap={4}>
+        <Title />
+        {children}
+      </Flex>
+    </Dialog.Content>
+  );
 };
 
 /* -------------------------------------------------------------------------------------------------
@@ -154,18 +138,18 @@ const Content: React.FC<ContentProps> = ({ children }) => {
  * ----------------------------------------------------------------------------------------------- */
 
 interface AddFriendDialogProps {
-	children?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const AddFriendDialog: React.FC<AddFriendDialogProps> = ({ children }) => {
-	return (
-		<Dialog>
-			<Dialog.Trigger asChild>{children}</Dialog.Trigger>
-			<Content>
-				<Form />
-			</Content>
-		</Dialog>
-	);
+  return (
+    <Dialog>
+      <Dialog.Trigger asChild>{children}</Dialog.Trigger>
+      <Content>
+        <Form />
+      </Content>
+    </Dialog>
+  );
 };
 
 export { AddFriendDialog };

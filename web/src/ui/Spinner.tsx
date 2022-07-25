@@ -38,16 +38,16 @@ const StyledCircle = styled('circle', {
 interface SpinnerProps extends React.ComponentPropsWithoutRef<'svg'> {}
 
 const Spinner: React.FC<SpinnerProps> = props => (
-  <StyledSpinner height="1em" width="1em" viewBox="0 0 50 50" {...props}>
+  <StyledSpinner height='1em' width='1em' viewBox='0 0 50 50' {...props}>
     <StyledCircle
-      className="path"
-      cx="25"
-      cy="25"
-      r="20"
-      fill="none"
-      strokeWidth="6"
-      stroke="currentColor"
-      strokeLinecap="round"
+      className='path'
+      cx='25'
+      cy='25'
+      r='20'
+      fill='none'
+      strokeWidth='6'
+      stroke='currentColor'
+      strokeLinecap='round'
     />
   </StyledSpinner>
 );

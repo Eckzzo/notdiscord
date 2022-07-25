@@ -9,8 +9,8 @@ interface ThemeProviderProps {
 function ThemeProvider({ children }: ThemeProviderProps) {
   return (
     <NextThemeProvider
-      attribute="class"
-      defaultTheme="system"
+      attribute='class'
+      defaultTheme='system'
       disableTransitionOnChange
       value={{ light: theme.className, dark: darkTheme.className }}
     >

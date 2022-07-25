@@ -1,31 +1,26 @@
 import { ConnectionHandler, RecordSourceProxy } from 'relay-runtime';
 
 interface ConnectionDeleteEdgeUpdaterArgs {
-	parentId: string;
-	connectionName: string;
-	nodeId: string;
-	store: RecordSourceProxy;
+  parentId: string;
+  connectionName: string;
+  nodeId: string;
+  store: RecordSourceProxy;
 }
 
-const connectionDeleteEdgeUpdater = ({
-	parentId,
-	connectionName,
-	nodeId,
-	store,
-}: ConnectionDeleteEdgeUpdaterArgs) => {
-	const parentProxy = store.get(parentId);
+const connectionDeleteEdgeUpdater = ({ parentId, connectionName, nodeId, store }: ConnectionDeleteEdgeUpdaterArgs) => {
+  const parentProxy = store.get(parentId);
 
-	if (!parentProxy) {
-		return;
-	}
+  if (!parentProxy) {
+    return;
+  }
 
-	const conn = ConnectionHandler.getConnection(parentProxy, connectionName);
+  const conn = ConnectionHandler.getConnection(parentProxy, connectionName);
 
-	if (!conn) {
-		return;
-	}
+  if (!conn) {
+    return;
+  }
 
-	ConnectionHandler.deleteNode(conn, nodeId);
+  ConnectionHandler.deleteNode(conn, nodeId);
 };
 
 export { connectionDeleteEdgeUpdater };

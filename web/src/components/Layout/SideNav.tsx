@@ -1,3 +1,4 @@
+import React from 'react';
 import NextLink from 'next/link';
 import { graphql } from 'relay-runtime';
 import { useFragment } from 'react-relay';
@@ -18,17 +19,14 @@ import { SideNavFragment$key } from '../../__generated__/SideNavFragment.graphql
  * ----------------------------------------------------------------------------------------------- */
 
 const SideNavFragment = graphql`
-	fragment SideNavFragment on User {
-		guilds(first: $first) @connection(key: "SideNav_guilds", filters: []) {
-			...GuildListFragment
-			...NewGuildDialogFragment
-			...JoinGuildDialogFragment
-			edges {
-				cursor
-			}
-		}
-		...UserDropdownMenuFragment
-	}
+  fragment SideNavFragment on User {
+    guilds(first: $first) @connection(key: "SideNav_guilds", filters: []) {
+      ...GuildListFragment
+      ...NewGuildDialogFragment
+      ...JoinGuildDialogFragment
+    }
+    ...UserDropdownMenuFragment
+  }
 `;
 
 /* -------------------------------------------------------------------------------------------------
@@ -36,15 +34,15 @@ const SideNavFragment = graphql`
  * ----------------------------------------------------------------------------------------------- */
 
 const StyledSideNav = styled('nav', {
-	boxSizing: 'border-box',
-	width: '72px',
-	height: '100%',
-	py: '$4',
-	display: 'flex',
-	flexDirection: 'column',
-	justifyContent: 'space-between',
-	alignItems: 'center',
-	borderRight: '1px solid $gray300',
+  boxSizing: 'border-box',
+  width: '72px',
+  height: '100%',
+  py: '$4',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  borderRight: '1px solid $gray300',
 });
 
 /* -------------------------------------------------------------------------------------------------
@@ -52,41 +50,41 @@ const StyledSideNav = styled('nav', {
  * ----------------------------------------------------------------------------------------------- */
 
 interface SideNavProps {
-	fragmentKey: SideNavFragment$key;
+  fragmentKey: SideNavFragment$key;
 }
 
 const SideNav: React.FC<SideNavProps> = ({ fragmentKey }) => {
-	const data = useFragment(SideNavFragment, fragmentKey);
+  const data = useFragment(SideNavFragment, fragmentKey);
 
-	return (
-		<StyledSideNav>
-			<Flex direction="column" gap={4}>
-				<NextLink href="/me">
-					<IconButton>
-						<EnvelopeClosedIcon />
-					</IconButton>
-				</NextLink>
-				<Separator />
-			</Flex>
-			<Flex direction="column" gap={2}>
-				<GuildList fragmentKey={data.guilds} />
-				<NewGuildDialog fragmentKey={data.guilds}>
-					<IconButton variant="tertiary">
-						<PlusIcon />
-					</IconButton>
-				</NewGuildDialog>
-				<JoinGuildDialog fragmentKey={data.guilds}>
-					<IconButton variant="tertiary">
-						<GlobeIcon />
-					</IconButton>
-				</JoinGuildDialog>
-			</Flex>
-			<Flex direction="column" gap={4}>
-				<Separator />
-				{data && <UserDropdownMenu fragmentKey={data} />}
-			</Flex>
-		</StyledSideNav>
-	);
+  return (
+    <StyledSideNav>
+      <Flex direction='column' gap={4}>
+        <NextLink href='/me'>
+          <IconButton>
+            <EnvelopeClosedIcon />
+          </IconButton>
+        </NextLink>
+        <Separator />
+      </Flex>
+      <Flex direction='column' gap={2}>
+        <GuildList fragmentKey={data.guilds} />
+        <NewGuildDialog fragmentKey={data.guilds}>
+          <IconButton variant='tertiary'>
+            <PlusIcon />
+          </IconButton>
+        </NewGuildDialog>
+        <JoinGuildDialog fragmentKey={data.guilds}>
+          <IconButton variant='tertiary'>
+            <GlobeIcon />
+          </IconButton>
+        </JoinGuildDialog>
+      </Flex>
+      <Flex direction='column' gap={4}>
+        <Separator />
+        {data && <UserDropdownMenu fragmentKey={data} />}
+      </Flex>
+    </StyledSideNav>
+  );
 };
 
 SideNav.displayName = 'SideNav';

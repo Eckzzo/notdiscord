@@ -79,14 +79,4 @@ const moveStyles = css({
   willChange: 'transform, opacity',
 });
 
-export {
-  popIn,
-  popOut,
-  fadeIn,
-  fadeOut,
-  moveIn,
-  moveOut,
-  popStyles,
-  fadeStyles,
-  moveStyles,
-};
+export { popIn, popOut, fadeIn, fadeOut, moveIn, moveOut, popStyles, fadeStyles, moveStyles };

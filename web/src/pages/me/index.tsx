@@ -1,3 +1,4 @@
+import React from 'react';
 import { Suspense } from 'react';
 import { GetServerSideProps } from 'next';
 import { graphql, PreloadedQuery, usePreloadedQuery } from 'react-relay';
@@ -12,65 +13,57 @@ import { NextPageWithLayout } from 'relay/ReactRelayContainer';
 import pageQuery, { me_PageQuery } from '__generated__/me_PageQuery.graphql';
 
 const MeIndexQuery = graphql`
-	query me_PageQuery(
-		$after: String
-		$first: Int!
-		$status: FriendshipStatus!
-		$target: FriendshipTarget!
-	) {
-		...FriendListFragment
-	}
+  query me_PageQuery($after: String, $first: Int!, $status: FriendshipStatus!, $target: FriendshipTarget!) {
+    ...FriendListFragment
+  }
 `;
 
 interface MeIndexProps {
-	queryRefs: {
-		pageQueryRef: PreloadedQuery<me_PageQuery>;
-	};
+  queryRefs: {
+    pageQueryRef: PreloadedQuery<me_PageQuery>;
+  };
 }
 
-const Index: NextPageWithLayout<MeIndexProps> = ({ queryRefs }) => {
-	const data = usePreloadedQuery<me_PageQuery>(
-		MeIndexQuery,
-		queryRefs.pageQueryRef
-	);
+const Index: NextPageWithLayout<MeIndexProps> = ({ queryRefs }: MeIndexProps) => {
+  const data = usePreloadedQuery<me_PageQuery>(MeIndexQuery, queryRefs.pageQueryRef);
 
-	if (!data) {
-		return null;
-	}
-	return (
-		<Suspense fallback="Loading...">
-			<FriendList fragmentRef={data} />
-		</Suspense>
-	);
+  if (!data) {
+    return null;
+  }
+  return (
+    <Suspense fallback='Loading...'>
+      <FriendList fragmentRef={data} />
+    </Suspense>
+  );
 };
 
-Index.getLayout = (page) => {
-	return (
-		<Layout queryRef={page.props.queryRefs.layout}>
-			<MeLayout>{page}</MeLayout>
-		</Layout>
-	);
+Index.getLayout = page => {
+  return (
+    <Layout queryRef={page.props.queryRefs.layout}>
+      <MeLayout>{page}</MeLayout>
+    </Layout>
+  );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	const token = getToken(context.req.headers);
-	return {
-		props: {
-			preloadedQueries: {
-				layout: await getPreloadedQuery(layoutQuery, { first: 10 }, token),
-				pageQueryRef: await getPreloadedQuery(
-					pageQuery,
-					{
-						status: 'ACCEPTED',
-						target: 'RECIPIENT',
-						first: 20,
-						after: null,
-					},
-					token
-				),
-			},
-		},
-	};
+export const getServerSideProps: GetServerSideProps = async context => {
+  const token = getToken(context.req.headers);
+  return {
+    props: {
+      preloadedQueries: {
+        layout: await getPreloadedQuery(layoutQuery, { first: 10 }, token),
+        pageQueryRef: await getPreloadedQuery(
+          pageQuery,
+          {
+            status: 'ACCEPTED',
+            target: 'RECIPIENT',
+            first: 20,
+            after: null,
+          },
+          token,
+        ),
+      },
+    },
+  };
 };
 
 export default Index;
