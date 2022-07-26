@@ -181,7 +181,7 @@ Project Link: [https://github.com/eckzzo/notdiscord](https://github.com/eckzzo/n
 - [Radix](https://www.radix-ui.com)
 - [Stitches](https://stitches.dev)
 - [Tailwind](https://tailwindcss.com)
-- [ReadME Template](https://github.com/othneildrew/Best-README-Template)
+- [README Template](https://github.com/othneildrew/Best-README-Template)
 - [sibelius](https://github.com/sibelius) for the amazing [Relay Workshop!](https://github.com/sibelius/relay-workshop)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
