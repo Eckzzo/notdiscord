@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "notdiscord-web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,9 @@
     "lint": "next lint",
     "format": "yarn lint && yarn prettier",
     "prettier": "prettier src/** --write",
-    "relay": "get-graphql-schema http://localhost:4000/graphql > ./data/schema.graphql && relay-compiler"
+    "copy-env": "cp .env.example .env",
+    "get-schema": "get-graphql-schema > ./data/schema.graphql",
+    "relay": "relay-compiler"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.5",

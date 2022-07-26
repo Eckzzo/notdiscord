@@ -16,7 +16,7 @@ function createNetwork() {
     const forceFetch = cacheConfig && cacheConfig.force;
 
     if (isQuery && !forceFetch) {
-      const fromCache = responseCache.get(id!, variables);
+      const fromCache = responseCache.get(id, variables);
       if (fromCache != null) {
         return Promise.resolve(fromCache);
       }
@@ -35,10 +35,13 @@ function createNetwork() {
  * the results of GraphQL queries from your server (or other data source). See more at
  * https://relay.dev/docs/en/quick-start-guide#relay-environment.
  */
+
+const GRAPHQL_ENPOINT = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string;
+
 async function networkFetch(params: RequestParameters, variables: Variables, headers?: HeadersInit) {
   // Fetch data from GitHub's GraphQL API:
   // TODO: Add GraphQL Endpoint
-  const response = await fetch('http://localhost:4000/graphql', {
+  const response = await fetch(GRAPHQL_ENPOINT, {
     method: 'POST',
     credentials: 'include',
     headers: {

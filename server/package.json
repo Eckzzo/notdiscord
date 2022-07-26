@@ -1,5 +1,5 @@
 {
-  "name": "cordisc-server",
+  "name": "notdiscord-server",
   "version": "1.0.0",
   "main": "dist/src/index.js",
   "license": "MIT",
@@ -8,6 +8,7 @@
     "postinstall": "patch-package",
     "prettier": "prettier src/** --write",
     "format": "yarn lint && yarn prettier",
+    "copy-env": "cp .env.example .env",
     "dev": "tsc-watch --onSuccess \"node dist/index.js\""
   },
   "devDependencies": {

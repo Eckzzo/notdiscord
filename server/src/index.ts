@@ -7,8 +7,8 @@ import { useServer } from 'graphql-ws/lib/use/ws';
 import { app } from './app';
 import { config } from './config';
 import { schema } from './schema/schema';
-import { connectDatabase } from './database';
 import { getContext } from './getContext';
+import { connectDatabase } from './database';
 
 (async () => {
   await connectDatabase();

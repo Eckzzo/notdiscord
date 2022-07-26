@@ -21,6 +21,9 @@ import { SideNavFragment$key } from '../../__generated__/SideNavFragment.graphql
 const SideNavFragment = graphql`
   fragment SideNavFragment on User {
     guilds(first: $first) @connection(key: "SideNav_guilds", filters: []) {
+      edges {
+        __id
+      }
       ...GuildListFragment
       ...NewGuildDialogFragment
       ...JoinGuildDialogFragment
