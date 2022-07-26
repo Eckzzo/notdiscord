@@ -182,6 +182,7 @@ Project Link: [https://github.com/eckzzo/notdiscord](https://github.com/eckzzo/n
 - [Stitches](https://stitches.dev)
 - [Tailwind](https://tailwindcss.com)
 - [README Template](https://github.com/othneildrew/Best-README-Template)
+- [jantimon](https://github.com/jantimon) for the [NextJS Relay](https://github.com/jantimon/next-relay-demo) implementation demo!
 - [sibelius](https://github.com/sibelius) for the amazing [Relay Workshop!](https://github.com/sibelius/relay-workshop)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
