@@ -13,14 +13,16 @@ import {
   ClipboardCopyIcon,
 } from '@radix-ui/react-icons';
 
-import { Avatar } from '@ui/Avatar';
 import { Tooltip } from '@ui/Tooltip';
 import { Heading } from '@ui/Heading';
 import { Highlight } from '@ui/Highlight';
 import { DropdownMenu } from '@ui/DropdownMenu';
 
+import { UserAvatar } from 'components/User/UserAvatar';
 import { useIsMounted } from '../../hooks/useIsMounted';
 import { UserDropdownMenuFragment$key } from '../../__generated__/UserDropdownMenuFragment.graphql';
+import { Field } from '@ui/Field';
+import { Flex } from '@ui/Flex';
 
 /* -------------------------------------------------------------------------------------------------
  * GraphQL
@@ -30,6 +32,7 @@ const UserDropdownMenuFragment = graphql`
   fragment UserDropdownMenuFragment on User {
     username
     denominator
+    ...UserAvatarFragment
   }
 `;
 
@@ -88,20 +91,25 @@ const ThemeDropdownSubMenu: React.FC = () => {
  * ----------------------------------------------------------------------------------------------- */
 
 interface UserDropdownMenuProps {
+  children?: React.ReactNode;
   fragmentKey: UserDropdownMenuFragment$key;
 }
 
-const UserDropdownMenu: React.FC<UserDropdownMenuProps> = ({ fragmentKey }) => {
+const UserDropdownMenu: React.FC<UserDropdownMenuProps> = ({ children, fragmentKey }) => {
   const data = useFragment<UserDropdownMenuFragment$key>(UserDropdownMenuFragment, fragmentKey);
 
   return (
     <Suspense>
       <DropdownMenu>
-        <DropdownMenu.Trigger asChild>
-          <Avatar fallback={data.username} interactive />
-        </DropdownMenu.Trigger>
+        <DropdownMenu.Trigger asChild>{children}</DropdownMenu.Trigger>
         <DropdownMenu.Content side='right'>
-          <Avatar fallback={data.username} size='9' />
+          <Flex css={{ m: '$2' }}>
+            <Field>
+              <Field.FileInput>
+                <UserAvatar fragmentKey={data} size={9} />
+              </Field.FileInput>
+            </Field>
+          </Flex>
           <Tooltip content='Copy to Clipboard' side='top'>
             <DropdownMenu.Item
               variant='secondary'

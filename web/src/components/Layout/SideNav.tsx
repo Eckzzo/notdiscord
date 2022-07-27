@@ -10,6 +10,7 @@ import { Separator } from '@ui/Separator';
 import { IconButton } from '@ui/IconButton';
 import { UserDropdownMenu } from './UserDropdownMenu';
 import { GuildList } from 'components/Guild/GuildList';
+import { UserAvatar } from 'components/User/UserAvatar';
 import { NewGuildDialog } from 'components/Guild/NewGuildDialog';
 import { JoinGuildDialog } from 'components/Guild/JoinGuildDialog';
 import { SideNavFragment$key } from '../../__generated__/SideNavFragment.graphql';
@@ -28,6 +29,7 @@ const SideNavFragment = graphql`
       ...NewGuildDialogFragment
       ...JoinGuildDialogFragment
     }
+    ...UserAvatarFragment
     ...UserDropdownMenuFragment
   }
 `;
@@ -84,7 +86,11 @@ const SideNav: React.FC<SideNavProps> = ({ fragmentKey }) => {
       </Flex>
       <Flex direction='column' gap={4}>
         <Separator />
-        {data && <UserDropdownMenu fragmentKey={data} />}
+        {data && (
+          <UserDropdownMenu fragmentKey={data}>
+            <UserAvatar fragmentKey={data} interactive />
+          </UserDropdownMenu>
+        )}
       </Flex>
     </StyledSideNav>
   );

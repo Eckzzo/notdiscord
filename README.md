@@ -117,7 +117,7 @@ git clone https://github.com/eckzzo/notdiscord.git
 
 ### Web
 
-#### This package is dependant on the server
+**_NOTE:_** This package is dependant on the server
 
 1. Install packages
    ```sh
@@ -128,11 +128,12 @@ git clone https://github.com/eckzzo/notdiscord.git
    yarn copy-env
    ```
 3. Fill the .env file
+   **_NOTE:_** You can leave the other options empty, in case you want to try out the api feel free to contact me!
    ```sh
    NEXT_PUBLIC_GRAPHQL_ENDPOINT=
    ```
 4. Get the GraphQL Schema from the server
-   #### The server must be running before you run this command
+   **The server must be running before you run this command**
    ```sh
    yarn get-schema YOUR_GRAPHQL_ENDPOINT
    ```

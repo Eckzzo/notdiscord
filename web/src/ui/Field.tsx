@@ -65,6 +65,40 @@ const StyledInput = styled('input', {
   },
 });
 
+const StyledFileInputLabel = styled('label', {
+  position: 'relative',
+  cursor: 'pointer',
+  display: 'flex',
+  '&:after': {
+    position: 'absolute',
+    content: 'Edit',
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    borderRadius: '$2',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    justifyContent: 'center',
+    fontSize: '$1',
+    fontWeight: '$medium',
+    letterSpacing: '1px',
+    textTransform: 'uppercase',
+    transition: 'opacity 0.2s ease',
+    opacity: 0,
+  },
+  '&:hover': {
+    '&:after': {
+      opacity: 1,
+    },
+  },
+});
+
+const StyledFileInput = styled('input', {
+  opacity: 0,
+  size: '0.1px',
+  position: 'absolute',
+});
+
 /* -------------------------------------------------------------------------------------------------
  * Label
  * ----------------------------------------------------------------------------------------------- */
@@ -90,10 +124,28 @@ Label.displayName = 'Label';
 
 const Input = React.forwardRef<HTMLInputElement, React.ComponentPropsWithRef<typeof StyledInput>>((props, ref) => {
   const { id } = useFieldContext('Field.Input');
-  return <StyledInput id={id} {...props} ref={ref} />;
+  return <StyledInput {...props} id={id} ref={ref} />;
 });
 
 Input.displayName = 'Input';
+
+/* -------------------------------------------------------------------------------------------------
+ * FileInput
+ * ----------------------------------------------------------------------------------------------- */
+
+interface FileInputProps {
+  children?: React.ReactNode;
+}
+
+const FileInput: React.FC<FileInputProps> = ({ children }) => {
+  const { id } = useFieldContext('Field.File');
+  return (
+    <Flex>
+      <StyledFileInputLabel htmlFor={id}>{children}</StyledFileInputLabel>
+      <StyledFileInput id={id} type='file' accept='image/jpeg, image/png' />
+    </Flex>
+  );
+};
 
 /* -------------------------------------------------------------------------------------------------
  * Field
@@ -106,14 +158,16 @@ interface FieldProps {
 interface FieldComposition {
   Label: typeof Label;
   Input: typeof Input;
+  FileInput: typeof FileInput;
 }
 
-const Field: React.FC<FieldProps> & FieldComposition = ({ children }) => {
+const Field: React.FC<FieldProps> & FieldComposition = ({ children }: FieldProps) => {
   return <FieldContext>{children}</FieldContext>;
 };
 
 Field.Label = Label;
 Field.Input = Input;
+Field.FileInput = FileInput;
 
 /* -------------------------------------------------------------------------------------------------
  * TextField
@@ -124,7 +178,7 @@ interface TextFieldProps extends React.ComponentPropsWithRef<'input'> {
   error?: string;
 }
 
-const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(({ id, error, label, ...props }, ref) => {
+const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(({ error, label, ...props }, ref) => {
   return (
     <Field>
       <Flex direction='column' gap={1} grow>

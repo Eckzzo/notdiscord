@@ -14,8 +14,8 @@ import { GraphQLContext } from '../../graphql/context';
 import { registerTypeLoader } from '../node/typeRegister';
 import { FriendshipModel } from '../friendship/FriendshipModel';
 
-import { UserDocument } from './UserModel';
 import { load } from './UserLoader';
+import { UserDocument } from './UserModel';
 
 const UserType = new GraphQLObjectType<UserDocument, GraphQLContext>({
   name: 'User',
@@ -35,13 +35,13 @@ const UserType = new GraphQLObjectType<UserDocument, GraphQLContext>({
       resolve: user => user.denominator.toString().padStart(4, '0'),
     },
     avatar: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
       description: 'The user avatar hash',
-      resolve: user => user.avatar ?? null,
+      resolve: user => user.avatar,
     },
     guilds: {
       type: new GraphQLNonNull(GuildConnection.connectionType),
-      description: 'The guild members',
+      description: 'The guilds the user belongs to',
       args: { ...connectionArgs },
       resolve: async (user, args, context) => {
         return GuildLoader.loadAll(context, withFilter(args, { members: user._id }));

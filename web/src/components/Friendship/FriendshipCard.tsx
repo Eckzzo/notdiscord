@@ -4,9 +4,8 @@ import { graphql, useFragment } from 'react-relay';
 import { Text } from '@ui/Text';
 import { Flex } from '@ui/Flex';
 import { styled } from '@stitches';
-import { Avatar } from '@ui/Avatar';
 import { Highlight } from '@ui/Highlight';
-
+import { UserAvatar } from 'components/User/UserAvatar';
 import { FriendshipCardFragment$key } from '../../__generated__/FriendshipCardFragment.graphql';
 
 const StyledFriendshipCard = styled('div', {
@@ -25,6 +24,7 @@ const FriendshipCardFragment = graphql`
   fragment FriendshipCardFragment on User {
     username
     denominator
+    ...UserAvatarFragment
   }
 `;
 
@@ -39,7 +39,7 @@ const FriendshipCard: React.FC<FriendshipCardProps> = ({ fragmentRef, message, c
   return (
     <StyledFriendshipCard>
       <Flex align='center' gap={3}>
-        <Avatar fallback={data.username} />
+        <UserAvatar fragmentKey={data} />
         <Flex direction='column' gap={1}>
           <Text weight='semibold'>
             {data.username}
@@ -56,17 +56,6 @@ const FriendshipCard: React.FC<FriendshipCardProps> = ({ fragmentRef, message, c
     </StyledFriendshipCard>
   );
 };
-
-// <Tooltip content="Accept" side="top">
-//           <IconButton variant="ghost" size="md">
-//             <CheckIcon width={20} height={20} />
-//           </IconButton>
-//         </Tooltip>
-//         <Tooltip content="Reject" side="top">
-//           <IconButton variant="ghost" size="md">
-//             <Cross2Icon width={20} height={20} />
-//           </IconButton>
-//         </Tooltip>
 
 FriendshipCard.displayName = 'FriendshipCard';
 

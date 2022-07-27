@@ -1,12 +1,11 @@
 import React from 'react';
 import { graphql } from 'relay-runtime';
+import { useFragment } from 'react-relay';
 
 import { Flex } from '@ui/Flex';
 import { Text } from '@ui/Text';
-import { Avatar } from '@ui/Avatar';
 import { Separator } from '@ui/Separator';
-import { useFragment } from 'react-relay';
-
+import { UserAvatar } from 'components/User/UserAvatar';
 import { MessageFragment$key } from '__generated__/MessageFragment.graphql';
 
 const MessageFragment = graphql`
@@ -14,6 +13,7 @@ const MessageFragment = graphql`
     content
     sender {
       username
+      ...UserAvatarFragment
     }
   }
 `;
@@ -26,7 +26,7 @@ const Message: React.FC<MessageProps> = ({ fragmentKey }) => {
   const data = useFragment<MessageFragment$key>(MessageFragment, fragmentKey);
   return (
     <Flex gap={2}>
-      <Avatar fallback={data.sender.username} />
+      <UserAvatar fragmentKey={data.sender} />
       <Flex direction='column' gap={1}>
         <Flex align='center' gap={3}>
           <Text weight='semibold'>{data.sender.username}</Text>

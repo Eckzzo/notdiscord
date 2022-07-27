@@ -60,7 +60,6 @@ const StyledAvatar = styled(AvatarPrimitive.Root, {
       },
       '9': {
         size: '60px',
-        m: '$2',
       },
     },
     variant: {
@@ -227,4 +226,5 @@ const Avatar = React.forwardRef<React.ElementRef<typeof StyledAvatar>, AvatarPro
 
 Avatar.displayName = 'Avatar';
 
+export type { AvatarProps };
 export { Avatar };

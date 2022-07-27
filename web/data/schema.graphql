@@ -488,9 +488,9 @@ type User {
   denominator: String!
 
   """The user avatar hash"""
-  avatar: String
+  avatar: String!
 
-  """The guild members"""
+  """The guilds the user belongs to"""
   guilds(after: String, first: Int, before: String, last: Int): GuildConnection!
   isFriend: Boolean!
 

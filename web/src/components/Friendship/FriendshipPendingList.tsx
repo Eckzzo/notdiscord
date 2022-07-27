@@ -10,10 +10,10 @@ import { Tooltip } from '@ui/Tooltip';
 import { Separator } from '@ui/Separator';
 import { IconButton } from '@ui/IconButton';
 import { FriendshipCard } from './FriendshipCard';
-import { FriendshipAccept, FriendshipAcceptUpdater } from './mutations/FriendshipAcceptMutation';
 import { FriendshipReject } from './mutations/FriendshipRejectMutation';
 import { FriendshipRejectMutation } from '__generated__/FriendshipRejectMutation.graphql';
 import { FriendshipAcceptMutation } from '__generated__/FriendshipAcceptMutation.graphql';
+import { FriendshipAccept, FriendshipAcceptUpdater } from './mutations/FriendshipAcceptMutation';
 import { FriendshipPendingListFragment$key } from '__generated__/FriendshipPendingListFragment.graphql';
 
 const FriendshipPendingListFragment = graphql`
