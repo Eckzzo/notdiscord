@@ -11,6 +11,7 @@ const GuildJoin = graphql`
         node {
           id
           name
+          icon
         }
       }
     }

@@ -1,3 +1,4 @@
+import React from 'react';
 import { styled } from '@stitches';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 
@@ -85,9 +86,9 @@ interface ScrollAreaProps {
   type?: 'auto' | 'hover' | 'scroll' | 'always';
 }
 
-const ScrollArea: React.FC<ScrollAreaProps> = ({ children, ...props }) => {
+const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(({ children, ...props }, ref) => {
   return (
-    <ScrollAreaPrimitive.Root {...props}>
+    <ScrollAreaPrimitive.Root ref={ref} {...props}>
       <Viewport>{children}</Viewport>
       <Scrollbar orientation='vertical'>
         <ScrollThumb />
@@ -95,6 +96,8 @@ const ScrollArea: React.FC<ScrollAreaProps> = ({ children, ...props }) => {
       <Corner />
     </ScrollAreaPrimitive.Root>
   );
-};
+});
+
+ScrollArea.displayName = 'ScrollArea';
 
 export { ScrollArea };

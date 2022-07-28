@@ -77,6 +77,7 @@ const StyledFileInputLabel = styled('label', {
     display: 'flex',
     alignItems: 'center',
     borderRadius: '$2',
+    color: 'white',
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
     justifyContent: 'center',
     fontSize: '$1',
@@ -133,16 +134,16 @@ Input.displayName = 'Input';
  * FileInput
  * ----------------------------------------------------------------------------------------------- */
 
-interface FileInputProps {
+interface FileInputProps extends React.ComponentProps<typeof StyledFileInput> {
   children?: React.ReactNode;
 }
 
-const FileInput: React.FC<FileInputProps> = ({ children }) => {
+const FileInput: React.FC<FileInputProps> = ({ children, ...props }) => {
   const { id } = useFieldContext('Field.File');
   return (
     <Flex>
       <StyledFileInputLabel htmlFor={id}>{children}</StyledFileInputLabel>
-      <StyledFileInput id={id} type='file' accept='image/jpeg, image/png' />
+      <StyledFileInput {...props} id={id} type='file' accept='image/jpeg, image/png' />
     </Flex>
   );
 };

@@ -29,6 +29,10 @@ const GuildType = new GraphQLObjectType<GuildDocument, GraphQLContext>({
       type: new GraphQLNonNull(GraphQLString),
       resolve: guild => guild.passcode,
     },
+    icon: {
+      type: new GraphQLNonNull(GraphQLString),
+      resolve: guild => guild.icon,
+    },
     owner: {
       type: new GraphQLNonNull(UserType),
       description: 'The guild owner',

@@ -18,7 +18,7 @@ import pageQuery, { Cid_ChannelQuery } from '__generated__/Cid_ChannelQuery.grap
 import nestedLayoutQuery, { GuildLayoutQuery } from '__generated__/GuildLayoutQuery.graphql';
 
 const ChannelQuery = graphql`
-  query Cid_ChannelQuery($id: String!, $last: Int!, $before: String) {
+  query Cid_ChannelQuery($id: String!, $first: Int!, $after: String) {
     channel(id: $id) {
       name
       description
@@ -98,7 +98,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
   return {
     props: {
       preloadedQueries: {
-        pageQuery: await getPreloadedQuery(pageQuery, { id, last: 25, before: null }, token),
+        pageQuery: await getPreloadedQuery(pageQuery, { id, first: 10, after: null }, token),
         layoutQuery: await getPreloadedQuery(layoutQuery, { first: 10 }, token),
         nestedLayoutQuery: await getPreloadedQuery(
           nestedLayoutQuery,

@@ -35,7 +35,7 @@ const GuildSchema = new Schema<GuildDocument>({
   icon: {
     type: String,
     required: true,
-    default: v4(),
+    default: v4,
   },
   passcode: {
     type: String,

@@ -235,6 +235,7 @@ type Guild implements Node {
   name: String!
   description: String!
   passcode: String!
+  icon: String!
 
   """The guild owner"""
   owner: User!

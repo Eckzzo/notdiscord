@@ -13,16 +13,14 @@ import {
   ClipboardCopyIcon,
 } from '@radix-ui/react-icons';
 
+import { Flex } from '@ui/Flex';
 import { Tooltip } from '@ui/Tooltip';
 import { Heading } from '@ui/Heading';
 import { Highlight } from '@ui/Highlight';
 import { DropdownMenu } from '@ui/DropdownMenu';
-
-import { UserAvatar } from 'components/User/UserAvatar';
 import { useIsMounted } from '../../hooks/useIsMounted';
+import { UserEditAvatar } from 'components/User/UserEditAvatar';
 import { UserDropdownMenuFragment$key } from '../../__generated__/UserDropdownMenuFragment.graphql';
-import { Field } from '@ui/Field';
-import { Flex } from '@ui/Flex';
 
 /* -------------------------------------------------------------------------------------------------
  * GraphQL
@@ -32,7 +30,7 @@ const UserDropdownMenuFragment = graphql`
   fragment UserDropdownMenuFragment on User {
     username
     denominator
-    ...UserAvatarFragment
+    ...UserEditAvatarFragment
   }
 `;
 
@@ -104,11 +102,7 @@ const UserDropdownMenu: React.FC<UserDropdownMenuProps> = ({ children, fragmentK
         <DropdownMenu.Trigger asChild>{children}</DropdownMenu.Trigger>
         <DropdownMenu.Content side='right'>
           <Flex css={{ m: '$2' }}>
-            <Field>
-              <Field.FileInput>
-                <UserAvatar fragmentKey={data} size={9} />
-              </Field.FileInput>
-            </Field>
+            <UserEditAvatar fragmentKey={data} />
           </Flex>
           <Tooltip content='Copy to Clipboard' side='top'>
             <DropdownMenu.Item

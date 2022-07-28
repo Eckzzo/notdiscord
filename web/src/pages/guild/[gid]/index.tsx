@@ -17,12 +17,14 @@ import { NextPageWithLayout } from 'relay/ReactRelayContainer';
 import layoutQuery, { LayoutQuery } from '__generated__/LayoutQuery.graphql';
 import pageQuery, { Gid_GuildQuery } from '__generated__/Gid_GuildQuery.graphql';
 import nestedLayoutQuery, { GuildLayoutQuery } from '__generated__/GuildLayoutQuery.graphql';
+import { GuildEditIcon } from 'components/Guild/GuildEditIcon';
 
 const GuildQuery = graphql`
   query Gid_GuildQuery($id: String!) {
     guild(id: $id) {
       name
       description
+      ...GuildEditIconFragment
     }
   }
 `;
@@ -56,6 +58,7 @@ const Guild: NextPageWithLayout<GuildProps> = ({ queryRefs }: GuildProps) => {
         </Flex>
       </Header>
       <Flex direction='column' align='center' justify='center' gap={1} grow>
+        <GuildEditIcon fragmentKey={data.guild} />
         <Heading variant='h4'>
           Welcome to <Highlight color='violet'>{guild.name}</Highlight>
         </Heading>

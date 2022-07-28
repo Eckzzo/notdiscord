@@ -2,13 +2,13 @@ import NextLink from 'next/link';
 import React, { Suspense } from 'react';
 import { graphql, useFragment } from 'react-relay';
 
-import { Avatar } from '@ui/Avatar';
+import { GuildIcon } from './GuildIcon';
 import { GuildItemFragment$key } from '__generated__/GuildItemFragment.graphql';
 
 const GuildItemFragment = graphql`
   fragment GuildItemFragment on Guild {
     id
-    name
+    ...GuildIconFragment
   }
 `;
 
@@ -26,7 +26,7 @@ const GuildItem: React.FC<GuildItemProps> = ({ fragmentKey }) => {
   return (
     <Suspense>
       <NextLink key={`guild_${data.id}`} href={`/guild/${encodeURIComponent(data.id)}`}>
-        <Avatar fallback={data.name} />
+        <GuildIcon fragmentKey={data} interactive />
       </NextLink>
     </Suspense>
   );

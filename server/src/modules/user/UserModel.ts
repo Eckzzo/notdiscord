@@ -43,7 +43,7 @@ const UserSchema = new Schema<UserDocument>(
     avatar: {
       type: String,
       required: false,
-      default: v4(),
+      default: v4,
     },
   },
   {
